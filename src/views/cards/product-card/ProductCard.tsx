@@ -1,19 +1,75 @@
-import Image from 'next/image'
-import { Card, Typography } from "@mui/material"
+import Image from "next/image";
+import AspectRatio from "@mui/joy/AspectRatio";
 
-const ProductCard = () =>{
-    const src = `https://dkstatics-public.digikala.com/digikala-products/b0214f645db64a9c4b13a042da0136100a82d9a1_1676199654.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/format,webp/quality,q_90`
-return (
-    <Card sx={{backgroundColor: '#000000'}}>
-        <Image
-        loader={()=>src}       
-            src={src}
-            alt={'sdf'} 
-            width={500} 
-            height={600}/>
-            <Typography sx={{color:'#000000',backgroundColor:'#ff0000'}} >laptop asus fx506Hc</Typography>
-    </Card>
-)
+import {
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  Typography,
+} from "@mui/material";
+
+interface Props {
+  image: string;
+  name: string;
+  rating?: number;
+  price?: number;
+  freeDelivery?: boolean;
 }
 
-export default ProductCard
+const ProductCard = (props: Props) => {
+  return (
+    <Card
+      sx={{
+        width: 300,
+        // height: auto,
+        border: "#D0F3FF 2px solid",
+        boxShadow: "none",
+        borderRadius: "3px",
+        m: 2,
+        p: 3,
+      }}
+    >
+      {/* <CardMedia
+        sx={{ height: 300, width: "100%", objectFit: "cover" }}
+        image={props.image}
+      /> */}
+      <AspectRatio variant="plain" ratio="4/3" objectFit="contain">
+        <Image
+          loader={() => props.image}
+          alt={props.name}
+          src={props.image}
+          width={"100"}
+          height={"100"}
+        />
+      </AspectRatio>
+
+      <CardContent>
+        {props.freeDelivery ? (
+          <Typography>ارسال رایگان</Typography>
+        ) : (
+          <Typography>ارسال سریع</Typography>
+        )}
+        <Typography variant="body1" sx={{ mb: 2 }}>
+          {props.name}
+        </Typography>
+        <Typography variant="body2" sx={{ mb: 2 }}>
+          {props.price}
+        </Typography>
+        <Grid display={"flex"}>
+          <Grid item>
+            <Typography sx={{ color: "text.secondary" }}>
+              {props.rating}
+            </Typography>
+          </Grid>
+          <Grid item sx={{ m: 0.3, mx: 0.5 }}>
+            <Image width={18} height={18} alt="star" src={`star.svg`}></Image>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default ProductCard;
