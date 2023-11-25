@@ -1,64 +1,76 @@
 import { mockGraphicsData } from "@/data/graphics";
-import { Product, ProductList } from "@/models";
 import ProductCard from "@/views/cards/product-card/ProductCard";
 import {
   AppBar,
   Box,
   Button,
-  Card,
-  Container,
   Grid,
   List,
-  ListItem,
   Typography,
+  styled,
 } from "@mui/material";
-import { dir } from "console";
-import Image from "next/image";
 import toast from "react-hot-toast";
 
-/* const mockLaptopData: ProductList = {productList: [
-{
-  freeDelivery: true,
-  id: 1,
-  image: 'https://dkstatics-public.digikala.com/digikala-products/0b5f4468a6ae87164378a8591d3061ae7fa6fbee_1660571719.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/format,webp/quality,q_90',
-  name: 'رم دسکتاپ DDR4 تک کاناله 3200 مگاهرتز CL22 کروشیال مدل CT8G4DFRA32A ظرفیت 8 گیگابایت  ',
-  price: '۹۳۵,۰۰۰'
-
-}
-
-]} ; */
-
-const testData = mockGraphicsData.graphicList;
+const CustomButton = styled(Button)({
+  boxShadow: "none",
+  color: "inherit",
+  textTransform: "none",
+  fontSize: 20,
+  lineHeight: 1.5,
+  borderRadius: 0,
+  "&:hover": {
+    backgroundColor: "#007aaa",
+    boxShadow: "none",
+  },
+  "&:active": {
+    boxShadow: "none",
+    backgroundColor: "#018Dba",
+  },
+  "&:focus": {
+    borderBottom: "3px solid #D0F3FF",
+    fontSize: 22,
+  },
+});
 
 export default function Home() {
   return (
     <Box display={"inline-block"} dir="rtl">
       <Grid>
-        <Typography>SaleComp</Typography>
+        <Typography
+          sx={{
+            color: "#2889A9",
+            fontSize: "40px",
+            fontStyle: "normal",
+            fontWeight: "700",
+            lineHeight: "normal",
+            mx: "7%",
+            my: 2,
+          }}
+        >
+          SaleComp
+        </Typography>
       </Grid>
-      <AppBar position="static">
-        <Grid container spacing={5}>
+      <AppBar sx={{ backgroundColor: "#008DBB" }} position="sticky">
+        <Grid
+          container
+          justifyContent={"center"}
+          display={"flex"}
+          spacing={30}
+          sx={{ p: 0.5 }}
+        >
           <Grid item>
-            <Button
-              onClick={() => {
-                toast.success("Successfully toasted!");
-              }}
-              variant="contained"
-            >
-              toast
-            </Button>
+            <Typography color={"inherit"} variant="h5">
+              محصولات
+            </Typography>
           </Grid>
           <Grid item>
-            <Button variant="contained">test1</Button>
+            <CustomButton>کارت گرافیک</CustomButton>
           </Grid>
           <Grid item>
-            <Button variant="contained">test2</Button>
+            <CustomButton>پردازنده</CustomButton>
           </Grid>
           <Grid item>
-            <Button variant="contained">test3</Button>
-          </Grid>
-          <Grid item>
-            <Button variant="contained">test4</Button>
+            <CustomButton>حافظه SSD</CustomButton>
           </Grid>
         </Grid>
       </AppBar>

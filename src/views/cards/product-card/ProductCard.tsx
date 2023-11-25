@@ -2,6 +2,7 @@ import Image from "next/image";
 import AspectRatio from "@mui/joy/AspectRatio";
 import {
   Box,
+  Button,
   ButtonBase,
   CardContent,
   Grid,
@@ -62,7 +63,7 @@ const ProductCard = (props: Props) => {
         </AspectRatio>
         <CardContent>
           <Grid display={"flex"}>
-            <Grid item sx={{ mx: 0.5 }}>
+            <Grid item sx={{ ml: 0.5, mb: 3 }}>
               {props.freeDelivery ? (
                 <Image
                   width={25}
@@ -81,14 +82,14 @@ const ProductCard = (props: Props) => {
             </Grid>
             <Grid item>
               {props.freeDelivery ? (
-                <Typography sx={{ mb: 2 }}>ارسال رایگان</Typography>
+                <Typography>ارسال رایگان</Typography>
               ) : (
-                <Typography sx={{ mb: 2 }}>ارسال فردا</Typography>
+                <Typography>ارسال سریع</Typography>
               )}
             </Grid>
           </Grid>
 
-          <TitleTypography flexWrap={"wrap"} sx={{ mb: 2 }}>
+          <TitleTypography flexWrap={"wrap"} sx={{ mb: 4 }}>
             {props.name}
           </TitleTypography>
           <Grid display={"flex"} justifyContent={"space-between"}>
