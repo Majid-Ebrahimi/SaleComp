@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { dir } from "console";
 import Image from "next/image";
+import toast from "react-hot-toast";
 
 /* const mockLaptopData: ProductList = {productList: [
 {
@@ -31,14 +32,21 @@ const testData = mockGraphicsData.graphicList;
 
 export default function Home() {
   return (
-    <Box dir="rtl">
+    <Box display={"inline-block"} dir="rtl">
       <Grid>
         <Typography>SaleComp</Typography>
       </Grid>
       <AppBar position="static">
         <Grid container spacing={5}>
           <Grid item>
-            <Button variant="contained">test</Button>
+            <Button
+              onClick={() => {
+                toast.success("Successfully toasted!");
+              }}
+              variant="contained"
+            >
+              toast
+            </Button>
           </Grid>
           <Grid item>
             <Button variant="contained">test1</Button>
@@ -54,8 +62,8 @@ export default function Home() {
           </Grid>
         </Grid>
       </AppBar>
-      <Grid>
-        <List sx={{ display: "flex", flexWrap: "wrap" }}>
+      <center>
+        <List sx={{ flexWrap: "wrap" }}>
           {mockGraphicsData.graphicList.map((item) => {
             return (
               <ProductCard
@@ -65,11 +73,15 @@ export default function Home() {
                 price={item.price}
                 rating={item.rating}
                 freeDelivery={item.freeDelivery}
+                onClick={() => {
+                  toast(item.name);
+                  console.log("hiiii");
+                }}
               />
             );
           })}
         </List>
-      </Grid>
+      </center>
     </Box>
   );
 }
