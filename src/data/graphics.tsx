@@ -1,6 +1,6 @@
-import { GraphicModelList } from "@/models";
+import { DataList } from "@/models";
 
-export const mockGraphicsData: GraphicModelList = {
+export const mockData: DataList = {
   graphicList: [
     {
       id: 1,
@@ -212,6 +212,50 @@ export const mockGraphicsData: GraphicModelList = {
       gpu_clock_speed: "1600 MHz",
       image_url:
         "https://m.media-amazon.com/images/I/81GV77sd43L._AC_UY218_.jpg",
+      freeDelivery: true,
+    },
+  ],
+  cpuList: [
+    {
+      id: 1,
+      brand: "AMD",
+      name: "کارت گرافیک AMD مدل Radeon RX 580",
+      graphics_ram_type: "GDDR6X",
+      price: 57492357,
+      rating: 3.5,
+      reviews: 4360,
+      graphics_ram_size: "16GB",
+      gpu_clock_speed: "1000 MHz",
+      image_url:
+        "https://m.media-amazon.com/images/I/61YNuv-NPsL._AC_SY450_.jpg",
+      freeDelivery: true,
+    },
+    {
+      id: 1,
+      brand: "AMD",
+      name: "کارت گرافیک AMD مدل Radeon RX 580",
+      graphics_ram_type: "GDDR6X",
+      price: 57492357,
+      rating: 3.5,
+      reviews: 4360,
+      graphics_ram_size: "16GB",
+      gpu_clock_speed: "1000 MHz",
+      image_url:
+        "https://m.media-amazon.com/images/I/61YNuv-NPsL._AC_SY450_.jpg",
+      freeDelivery: true,
+    },
+    {
+      id: 1,
+      brand: "AMD",
+      name: "کارت گرافیک AMD مدل Radeon RX 580",
+      graphics_ram_type: "GDDR6X",
+      price: 57492357,
+      rating: 3.5,
+      reviews: 4360,
+      graphics_ram_size: "16GB",
+      gpu_clock_speed: "1000 MHz",
+      image_url:
+        "https://m.media-amazon.com/images/I/61YNuv-NPsL._AC_SY450_.jpg",
       freeDelivery: true,
     },
   ],

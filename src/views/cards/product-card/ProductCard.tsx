@@ -2,7 +2,6 @@ import Image from "next/image";
 import AspectRatio from "@mui/joy/AspectRatio";
 import {
   Box,
-  Button,
   ButtonBase,
   CardContent,
   Grid,
@@ -25,6 +24,10 @@ const ProductButton = styled(ButtonBase)(({ theme }) => ({
     border: "2px solid #D0F3FF",
     boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.60)",
   },
+  "&:active": {
+    backgroundColor: "#D0F3FF",
+    opacity: " 0.5",
+  },
 }));
 
 const TitleTypography = styled(Typography)(({ theme }) => ({
@@ -38,7 +41,9 @@ const TitleTypography = styled(Typography)(({ theme }) => ({
 const ProductCard = (props: Props) => {
   return (
     <ProductButton
-      onClick={props.onClick}
+      onClick={(e) => {
+        props.onClick;
+      }}
       sx={{
         height: 400,
         minWidth: 300,

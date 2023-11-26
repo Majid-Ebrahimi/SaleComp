@@ -25,6 +25,21 @@ export interface GraphicModel {
   freeDelivery: boolean;
 }
 
-export interface GraphicModelList {
+export interface CpuModel {
+  id: number;
+  brand: string;
+  name: string;
+  graphics_ram_type: string;
+  price: number;
+  rating: number;
+  reviews: number;
+  graphics_ram_size: string;
+  gpu_clock_speed: string;
+  image_url: string;
+  freeDelivery: boolean;
+}
+
+export interface DataList {
   graphicList: GraphicModel[];
+  cpuList: CpuModel[];
 }
