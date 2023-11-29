@@ -1,5 +1,6 @@
 import { mockData } from "@/data/MockData";
 import { ramMockData } from "@/data/ram";
+import FooterCard from "@/views/cards/footer-card/FooterCard";
 import ProductCard from "@/views/cards/product-card/ProductCard";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -8,6 +9,7 @@ import {
   AppBar,
   Box,
   Button,
+  Card,
   Grid,
   List,
   Typography,
@@ -50,7 +52,14 @@ export default function Home() {
   };
 
   return (
-    <Box display={"inline-block"} dir="rtl">
+    <Grid
+      container
+      display={"inline-block"}
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      sx={{ direction: "rtl" }}
+    >
       <AppBar sx={{ backgroundColor: "rgba(0, 141, 187)" }} position="fixed">
         <Grid sx={{ backgroundColor: "white" }}>
           <Typography
@@ -74,7 +83,7 @@ export default function Home() {
           direction="row"
           justifyContent="space-evenly"
         >
-          <Grid item>
+          <Grid sx={{ p: 1 }} item>
             <Typography color={"inherit"} variant="h5">
               محصولات
             </Typography>
@@ -161,6 +170,9 @@ export default function Home() {
           })}
         </center>
       </List>
-    </Box>
+      <Grid item alignSelf={"start"}>
+        <FooterCard />
+      </Grid>
+    </Grid>
   );
 }

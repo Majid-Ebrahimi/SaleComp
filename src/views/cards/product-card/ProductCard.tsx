@@ -1,12 +1,8 @@
 import Image from "next/image";
 import AspectRatio from "@mui/joy/AspectRatio";
 import {
-  Box,
   ButtonBase,
-  Card,
-  CardActionArea,
   CardContent,
-  CardMedia,
   Grid,
   Typography,
   styled,
@@ -45,7 +41,7 @@ const ProductCard = (props: Props) => {
   return (
     <ProductButton
       id="card"
-      onClick={(e) => {
+      onClick={() => {
         props.onClick;
       }}
       sx={{
