@@ -1,4 +1,6 @@
 import { mockData } from "@/data/MockData";
+import { Inder, Jura, Rubik } from "next/font/google";
+
 import { ramMockData } from "@/data/ram";
 import FooterCard from "@/views/cards/footer-card/FooterCard";
 import ProductCard from "@/views/cards/product-card/ProductCard";
@@ -16,6 +18,22 @@ import {
   styled,
 } from "@mui/material";
 import { useState } from "react";
+
+const inder = Inder({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const jura = Jura({
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const rubik = Rubik({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const CustomButton = styled(Button)({
   boxShadow: "none",
@@ -53,16 +71,18 @@ export default function Home() {
 
   return (
     <Grid
+      className={rubik.className}
       container
       display={"inline-block"}
       direction="column"
       justifyContent="center"
       alignItems="center"
-      sx={{ direction: "rtl" }}
+      sx={{ direction: "rtl", fontFamily: "Inder" }}
     >
       <AppBar sx={{ backgroundColor: "rgba(0, 141, 187)" }} position="fixed">
         <Grid sx={{ backgroundColor: "white" }}>
           <Typography
+            className={jura.className}
             sx={{
               color: "#2889A9",
               fontSize: "40px",

@@ -7,6 +7,7 @@ import {
   Typography,
   styled,
 } from "@mui/material";
+import { Inder, Rubik } from "next/font/google";
 
 interface Props {
   image: string;
@@ -36,6 +37,12 @@ const TitleTypography = styled(Typography)(({ theme }) => ({
   fontWeight: "400",
   lineHeight: "normal",
 }));
+
+const inder = Rubik({
+  weight: "400",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 const ProductCard = (props: Props) => {
   return (
@@ -123,7 +130,9 @@ const ProductCard = (props: Props) => {
               minHeight: 65,
             }}
           >
-            <TitleTypography>{props.name}</TitleTypography>
+            <TitleTypography className={inder.className}>
+              {props.name}
+            </TitleTypography>
           </Grid>
           <Grid display={"flex"} justifyContent={"space-between"}>
             <Grid display={"flex"}>
