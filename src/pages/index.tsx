@@ -1,4 +1,5 @@
-import { mockData } from "@/data/graphics";
+import { mockData } from "@/data/MockData";
+import { ramMockData } from "@/data/ram";
 import ProductCard from "@/views/cards/product-card/ProductCard";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -9,7 +10,6 @@ import {
   Button,
   Grid,
   List,
-  Tab,
   Typography,
   styled,
 } from "@mui/material";
@@ -40,6 +40,8 @@ const CustomButton = styled(Button)({
 export default function Home() {
   const initialState: any[] = [];
   const [productListData, setProductListData] = useState<any[]>(initialState);
+
+  const [test, setTest] = useState(true);
 
   const [value, setValue] = useState("1");
 
@@ -84,7 +86,7 @@ export default function Home() {
                 setProductListData([...mockData.graphicList]);
               }}
               onBlur={(e) => {
-                if (e.relatedTarget === null) {
+                if (e.relatedTarget === null || e.relatedTarget.id === "card") {
                   e.target.focus();
                 }
               }}
@@ -96,10 +98,25 @@ export default function Home() {
             <CustomButton
               onClick={async () => {
                 await setProductListData(initialState);
+                setProductListData([...mockData.mainBoardList]);
+              }}
+              onBlur={(e) => {
+                if (e.relatedTarget === null || e.relatedTarget.id === "card") {
+                  e.target.focus();
+                }
+              }}
+            >
+              مادربورد
+            </CustomButton>
+          </Grid>
+          <Grid item>
+            <CustomButton
+              onClick={async () => {
+                await setProductListData(initialState);
                 setProductListData([...mockData.cpuList]);
               }}
               onBlur={(e) => {
-                if (e.relatedTarget === null) {
+                if (e.relatedTarget === null || e.relatedTarget.id === "card") {
                   e.target.focus();
                 }
               }}
@@ -111,38 +128,39 @@ export default function Home() {
             <CustomButton
               onClick={async () => {
                 await setProductListData(initialState);
-                // setProductListData([...mockData.cpuList]);
+                setProductListData([...mockData.ramList]);
               }}
               onBlur={(e) => {
-                if (e.relatedTarget === null) {
+                if (e.relatedTarget === null || e.relatedTarget.id === "card") {
                   e.target.focus();
                 }
               }}
             >
-              حافظه SSD
+              رم کامپیوتر
             </CustomButton>
           </Grid>
         </Grid>
       </AppBar>
-      <center>
-        <List sx={{ flexWrap: "wrap", mt: 17 }}>
+      <List sx={{ flexWrap: "wrap", mt: 17 }}>
+        <center>
           {productListData.map((item) => {
             return (
               <ProductCard
-                key={item.id}
+                key={item.random_key}
                 image={item.image_url}
-                name={item.name}
+                name={item.name1}
                 price={item.price}
                 rating={item.rating}
-                freeDelivery={item.freeDelivery}
+                freeDelivery={item.isFreeDelivery}
                 onClick={() => {
-                  console.log(item.name);
+                  console.log(item.name2);
+                  setTest(true);
                 }}
               />
             );
           })}
-        </List>
-      </center>
+        </center>
+      </List>
     </Box>
   );
 }

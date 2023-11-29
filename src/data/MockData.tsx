@@ -1,6 +1,10 @@
-import { DataList } from "@/models";
+import { DataList, ProductList } from "@/models";
+import { ramMockData } from "./ram";
+import { cpuMockData } from "./cpu";
+import { graphicMockData } from "./graphic";
+import { mainBoardMockData } from "./mainBoard";
 
-export const mockData: DataList = {
+/* export const mockData2: DataList = {
   graphicList: [
     {
       id: 1,
@@ -259,4 +263,11 @@ export const mockData: DataList = {
       freeDelivery: true,
     },
   ],
+}; */
+
+export const mockData: DataList = {
+  ramList: ramMockData,
+  cpuList: cpuMockData,
+  graphicList: graphicMockData,
+  mainBoardList: mainBoardMockData,
 };

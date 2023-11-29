@@ -1,10 +1,20 @@
 export interface Product {
-  id: number;
-  name: string;
+  image_url: string;
+  rating: number;
+  random_key: string;
+  name1: string;
+  name2: string;
+  more_info_url: string;
+  web_client_absolute_url: string;
   price: number;
-  image: string;
-  freeDelivery: boolean;
-  score: number;
+  price_text: string;
+  price_text_mode: string;
+  shop_text: string;
+  stock_status: string;
+  delivery_city_name?: string | null;
+  delivery_city_flag?: string | null;
+  image_count: number;
+  isFreeDelivery: boolean;
 }
 
 export interface ProductList {
@@ -40,6 +50,8 @@ export interface CpuModel {
 }
 
 export interface DataList {
-  graphicList: GraphicModel[];
-  cpuList: CpuModel[];
+  ramList: Product[];
+  cpuList: Product[];
+  graphicList: Product[];
+  mainBoardList: Product[];
 }

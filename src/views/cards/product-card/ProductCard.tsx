@@ -41,6 +41,7 @@ const TitleTypography = styled(Typography)(({ theme }) => ({
 const ProductCard = (props: Props) => {
   return (
     <ProductButton
+      id="card"
       onClick={(e) => {
         props.onClick;
       }}
@@ -54,6 +55,7 @@ const ProductCard = (props: Props) => {
         m: 2,
         p: 1,
         pt: 6,
+        overflow: "hidden",
       }}
     >
       <Box>
@@ -67,8 +69,8 @@ const ProductCard = (props: Props) => {
           />
         </AspectRatio>
         <CardContent>
-          <Grid display={"flex"}>
-            <Grid item sx={{ ml: 0.5, mb: 3 }}>
+          <Grid direction={"column"}>
+            <Grid item sx={{ ml: 0.5, mb: 1 }}>
               {props.freeDelivery ? (
                 <Image
                   width={25}
@@ -94,9 +96,19 @@ const ProductCard = (props: Props) => {
             </Grid>
           </Grid>
 
-          <TitleTypography flexWrap={"wrap"} sx={{ mb: 4 }}>
-            {props.name}
-          </TitleTypography>
+          <Grid
+            item
+            sx={{
+              display: "-webkit-box",
+              overflow: "hidden",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 3,
+              mb: 2,
+              minHeight: 54,
+            }}
+          >
+            <TitleTypography>{props.name}</TitleTypography>
+          </Grid>
           <Grid display={"flex"} justifyContent={"space-between"}>
             <Grid display={"flex"}>
               <Grid item>
@@ -115,7 +127,7 @@ const ProductCard = (props: Props) => {
             </Grid>
             <Grid item>
               <Typography variant="body1" sx={{ mb: 2 }}>
-                ريال{" "}
+                تومان
                 {Intl.NumberFormat("en-US", {
                   maximumSignificantDigits: 4,
                 }).format(Number(props.price))}
