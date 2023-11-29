@@ -3,7 +3,10 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import {
   Box,
   ButtonBase,
+  Card,
+  CardActionArea,
   CardContent,
+  CardMedia,
   Grid,
   Typography,
   styled,
@@ -47,7 +50,8 @@ const ProductCard = (props: Props) => {
       }}
       sx={{
         height: 400,
-        minWidth: 300,
+        minWidth: 310,
+        maxWidth: 375,
         width: "18%",
         border: "#D0F3FF 2px solid",
         boxShadow: "none",
@@ -58,8 +62,18 @@ const ProductCard = (props: Props) => {
         overflow: "hidden",
       }}
     >
-      <Box>
-        <AspectRatio variant="plain" ratio="6/4" objectFit="contain">
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="stretch"
+      >
+        <AspectRatio
+          minHeight={225}
+          variant="plain"
+          ratio="6/4"
+          objectFit="contain"
+        >
           <Image
             loader={() => props.image}
             alt={props.name}
@@ -69,8 +83,13 @@ const ProductCard = (props: Props) => {
           />
         </AspectRatio>
         <CardContent>
-          <Grid direction={"column"}>
-            <Grid item sx={{ ml: 0.5, mb: 1 }}>
+          <Grid
+            container
+            direction="row"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+          >
+            <Grid item>
               {props.freeDelivery ? (
                 <Image
                   width={25}
@@ -97,14 +116,15 @@ const ProductCard = (props: Props) => {
           </Grid>
 
           <Grid
-            item
+            container
+            textAlign={"start"}
             sx={{
               display: "-webkit-box",
               overflow: "hidden",
               WebkitBoxOrient: "vertical",
               WebkitLineClamp: 3,
               mb: 2,
-              minHeight: 54,
+              minHeight: 65,
             }}
           >
             <TitleTypography>{props.name}</TitleTypography>
@@ -135,7 +155,7 @@ const ProductCard = (props: Props) => {
             </Grid>
           </Grid>
         </CardContent>
-      </Box>
+      </Grid>
     </ProductButton>
   );
 };

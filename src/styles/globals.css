@@ -1,6 +1,8 @@
 html,
 body {
   min-height: 100%;
+  /* TODO: change this */
+  background-color: gray;
 }
 
 #__next {
