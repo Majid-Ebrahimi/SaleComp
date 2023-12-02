@@ -1,13 +1,6 @@
 import Image from "next/image";
-import AspectRatio from "@mui/joy/AspectRatio";
-import {
-  ButtonBase,
-  CardContent,
-  Grid,
-  Typography,
-  styled,
-} from "@mui/material";
-import { Inder, Rubik } from "next/font/google";
+import { Box, ButtonBase, CardContent, Grid, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
 interface Props {
   image: string;
@@ -38,12 +31,6 @@ const TitleTypography = styled(Typography)(({ theme }) => ({
   lineHeight: "normal",
 }));
 
-const inder = Rubik({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 const ProductCard = (props: Props) => {
   return (
     <ProductButton
@@ -63,6 +50,7 @@ const ProductCard = (props: Props) => {
         p: 1,
         pt: 6,
         overflow: "hidden",
+        fontFamily: "Rubik",
       }}
     >
       <Grid
@@ -71,26 +59,25 @@ const ProductCard = (props: Props) => {
         justifyContent="center"
         alignItems="stretch"
       >
-        <AspectRatio
-          minHeight={225}
-          variant="plain"
-          ratio="6/4"
-          objectFit="contain"
-        >
+        <div style={{ position: "relative", height: "220px" }}>
           <Image
             loader={() => props.image}
             alt={props.name}
             src={props.image}
-            width={"100"}
-            height={"100"}
+            fill
+            sizes="(max-width: 300px) 50vw, 100vw"
+            style={{
+              objectFit: "contain", // cover, contain, none
+            }}
           />
-        </AspectRatio>
+        </div>
         <CardContent>
           <Grid
             container
             direction="row"
             justifyContent="flex-start"
             alignItems="flex-start"
+            sx={{ mb: 1 }}
           >
             <Grid item>
               {props.freeDelivery ? (
@@ -126,13 +113,11 @@ const ProductCard = (props: Props) => {
               overflow: "hidden",
               WebkitBoxOrient: "vertical",
               WebkitLineClamp: 3,
-              mb: 2,
+              mb: 1,
               minHeight: 65,
             }}
           >
-            <TitleTypography className={inder.className}>
-              {props.name}
-            </TitleTypography>
+            <TitleTypography>{props.name}</TitleTypography>
           </Grid>
           <Grid display={"flex"} justifyContent={"space-between"}>
             <Grid display={"flex"}>

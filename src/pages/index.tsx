@@ -1,36 +1,14 @@
 import { mockData } from "@/data/MockData";
-import { Inder, Jura, Rubik } from "next/font/google";
+import { Jura } from "next/font/google";
 
-import { ramMockData } from "@/data/ram";
 import FooterCard from "@/views/cards/footer-card/FooterCard";
 import ProductCard from "@/views/cards/product-card/ProductCard";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import {
-  AppBar,
-  Box,
-  Button,
-  Card,
-  Grid,
-  List,
-  Typography,
-  styled,
-} from "@mui/material";
+import { AppBar, Button, Grid, List, Typography } from "@mui/material";
+
+import { styled } from "@mui/material/styles";
 import { useState } from "react";
 
-const inder = Inder({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-});
-
 const jura = Jura({
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const rubik = Rubik({
   subsets: ["latin"],
   display: "swap",
 });
@@ -71,13 +49,12 @@ export default function Home() {
 
   return (
     <Grid
-      className={rubik.className}
       container
       display={"inline-block"}
       direction="column"
       justifyContent="center"
       alignItems="center"
-      sx={{ direction: "rtl", fontFamily: "Inder" }}
+      sx={{ direction: "rtl" }}
     >
       <AppBar sx={{ backgroundColor: "rgba(0, 141, 187)" }} position="fixed">
         <Grid sx={{ backgroundColor: "white" }}>
@@ -192,6 +169,9 @@ export default function Home() {
       </List>
       <Grid item alignSelf={"start"}>
         <FooterCard />
+        {/*           <Typography variant="h3">
+            سلامت کارت گرافیک یب hiiii hello how are you
+          </Typography> */}
       </Grid>
     </Grid>
   );
