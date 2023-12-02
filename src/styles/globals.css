@@ -8,13 +8,6 @@ body {
 }
 
 @font-face {
-  font-family: "Inder";
-  src: url("../asset/Inder/Inder-Regular.ttf");
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
   font-family: "Rubik";
   src: url("../asset/Rubik/Rubik-Regular.ttf");
   font-weight: 400;

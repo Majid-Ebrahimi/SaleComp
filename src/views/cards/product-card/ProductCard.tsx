@@ -35,9 +35,7 @@ const ProductCard = (props: Props) => {
   return (
     <ProductButton
       id="card"
-      onClick={() => {
-        props.onClick;
-      }}
+      onClick={props.onClick}
       sx={{
         height: 400,
         minWidth: 310,
@@ -59,15 +57,16 @@ const ProductCard = (props: Props) => {
         justifyContent="center"
         alignItems="stretch"
       >
-        <div style={{ position: "relative", height: "220px" }}>
+        <div style={{ position: "relative", height: "230px" }}>
           <Image
             loader={() => props.image}
             alt={props.name}
             src={props.image}
             fill
+            unoptimized
             sizes="(max-width: 300px) 50vw, 100vw"
             style={{
-              objectFit: "contain", // cover, contain, none
+              objectFit: "contain",
             }}
           />
         </div>

@@ -1,12 +1,11 @@
 import { mockData } from "@/data/MockData";
 import { Jura } from "next/font/google";
-
-import FooterCard from "@/views/cards/footer-card/FooterCard";
 import ProductCard from "@/views/cards/product-card/ProductCard";
 import { AppBar, Button, Grid, List, Typography } from "@mui/material";
 
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 const jura = Jura({
   subsets: ["latin"],
@@ -39,13 +38,12 @@ export default function Home() {
   const initialState: any[] = [];
   const [productListData, setProductListData] = useState<any[]>(initialState);
 
-  const [test, setTest] = useState(true);
-
-  const [value, setValue] = useState("1");
+  const [category, setCategory] = useState("");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
+    setCategory(newValue);
   };
+  const router = useRouter();
 
   return (
     <Grid
@@ -54,7 +52,6 @@ export default function Home() {
       direction="column"
       justifyContent="center"
       alignItems="center"
-      sx={{ direction: "rtl" }}
     >
       <AppBar sx={{ backgroundColor: "rgba(0, 141, 187)" }} position="fixed">
         <Grid sx={{ backgroundColor: "white" }}>
@@ -90,6 +87,7 @@ export default function Home() {
               onClick={async () => {
                 await setProductListData(initialState);
                 setProductListData([...mockData.graphicList]);
+                setCategory("graphic");
               }}
               onBlur={(e) => {
                 if (e.relatedTarget === null || e.relatedTarget.id === "card") {
@@ -105,6 +103,7 @@ export default function Home() {
               onClick={async () => {
                 await setProductListData(initialState);
                 setProductListData([...mockData.mainBoardList]);
+                setCategory("mainBoard");
               }}
               onBlur={(e) => {
                 if (e.relatedTarget === null || e.relatedTarget.id === "card") {
@@ -120,6 +119,7 @@ export default function Home() {
               onClick={async () => {
                 await setProductListData(initialState);
                 setProductListData([...mockData.cpuList]);
+                setCategory("cpu");
               }}
               onBlur={(e) => {
                 if (e.relatedTarget === null || e.relatedTarget.id === "card") {
@@ -135,6 +135,7 @@ export default function Home() {
               onClick={async () => {
                 await setProductListData(initialState);
                 setProductListData([...mockData.ramList]);
+                setCategory("ram");
               }}
               onBlur={(e) => {
                 if (e.relatedTarget === null || e.relatedTarget.id === "card") {
@@ -158,21 +159,21 @@ export default function Home() {
                 price={item.price}
                 rating={item.rating}
                 freeDelivery={item.isFreeDelivery}
-                onClick={() => {
-                  console.log(item.name2);
-                  setTest(true);
-                }}
+                onClick={() =>
+                  router.push({
+                    pathname: "/product-details",
+                    query: {
+                      key: item.random_key,
+                      category: category,
+                      shallow: true,
+                    },
+                  })
+                }
               />
             );
           })}
         </center>
       </List>
-      <Grid item alignSelf={"start"}>
-        <FooterCard />
-        {/*           <Typography variant="h3">
-            سلامت کارت گرافیک یب hiiii hello how are you
-          </Typography> */}
-      </Grid>
     </Grid>
   );
 }

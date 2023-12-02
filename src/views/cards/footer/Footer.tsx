@@ -1,7 +1,7 @@
 import { Box, ButtonBase, Grid, Typography } from "@mui/material";
 import Image from "next/image";
 
-const FooterCard = () => {
+const Footer = () => {
   return (
     <Box
       sx={{
@@ -13,12 +13,7 @@ const FooterCard = () => {
         border: "1px solid #B9BBBE",
       }}
     >
-      <Grid container justifyContent={"space-between"} xs="auto">
-        <Grid sx={{ mx: 1, p: 0.5 }}>
-          <Typography color={"#7A7D87"} variant="h6">
-            راه های ارتباط با سلکامپ
-          </Typography>
-        </Grid>
+      <Grid container justifyContent={"space-between"}>
         <Grid display={"flex"}>
           <Grid sx={{ mx: 1, textAlign: "center" }}>
             <ButtonBase
@@ -67,9 +62,14 @@ const FooterCard = () => {
             <Typography variant="body2">telegram</Typography>
           </Grid>
         </Grid>
+        <Grid sx={{ mx: 1, p: 0.5 }}>
+          <Typography color={"#7A7D87"} variant="h6">
+            راه های ارتباط با سلکامپ
+          </Typography>
+        </Grid>
       </Grid>
     </Box>
   );
 };
 
-export default FooterCard;
+export default Footer;
