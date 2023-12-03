@@ -63,9 +63,9 @@ export default function Home() {
     {},
   ];
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  /* const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setCategory(newValue);
-  };
+  }; */
   const router = useRouter();
 
   const getProductByCategory = async (category = "") => {
@@ -237,9 +237,8 @@ export default function Home() {
                     router.push({
                       pathname: "/product-details",
                       query: {
-                        category: category,
-                        key: item.id,
-                        shallow: true,
+                        id: item.id,
+                        category: item.category,
                       },
                     })
                   }
