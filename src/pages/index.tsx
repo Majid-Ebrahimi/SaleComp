@@ -4,8 +4,11 @@ import ProductCard from "@/views/cards/product-card/ProductCard";
 import { AppBar, Button, Grid, List, Typography } from "@mui/material";
 
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { Product, ProductList } from "@/models";
 
 const jura = Jura({
   subsets: ["latin"],
@@ -36,7 +39,6 @@ const CustomButton = styled(Button)({
 
 export default function Home() {
   const initialState: any[] = [];
-  const [productListData, setProductListData] = useState<any[]>(initialState);
 
   const [category, setCategory] = useState("");
 
@@ -44,6 +46,29 @@ export default function Home() {
     setCategory(newValue);
   };
   const router = useRouter();
+
+  const getProductByCategory = async (category = "") => {
+    return (
+      await axios.get(
+        `https://dummyjson.com/products${category}/?skip=0&limit=100`
+      )
+    ).data;
+  };
+
+  const { isLoading, error, data } = useQuery<ProductList>({
+    queryFn: () => getProductByCategory(category),
+    queryKey: ["products", category],
+    retry: 3,
+    placeholderData: keepPreviousData,
+  });
+
+  useEffect(() => {
+    setProductListData(data?.products);
+  }, [data]);
+
+  const [productListData, setProductListData] = useState<Product[] | undefined>(
+    data?.products
+  );
 
   return (
     <Grid
@@ -85,9 +110,7 @@ export default function Home() {
           <Grid item>
             <CustomButton
               onClick={async () => {
-                await setProductListData(initialState);
-                setProductListData([...mockData.graphicList]);
-                setCategory("graphic");
+                setCategory("");
               }}
               onBlur={(e) => {
                 if (e.relatedTarget === null || e.relatedTarget.id === "card") {
@@ -95,15 +118,13 @@ export default function Home() {
                 }
               }}
             >
-              کارت گرافیک
+              همه ی محصولات
             </CustomButton>
           </Grid>
           <Grid item>
             <CustomButton
               onClick={async () => {
-                await setProductListData(initialState);
-                setProductListData([...mockData.mainBoardList]);
-                setCategory("mainBoard");
+                setCategory("/category/smartphones");
               }}
               onBlur={(e) => {
                 if (e.relatedTarget === null || e.relatedTarget.id === "card") {
@@ -111,15 +132,13 @@ export default function Home() {
                 }
               }}
             >
-              مادربورد
+              تلفن همراه
             </CustomButton>
           </Grid>
           <Grid item>
             <CustomButton
               onClick={async () => {
-                await setProductListData(initialState);
-                setProductListData([...mockData.cpuList]);
-                setCategory("cpu");
+                setCategory("/category/laptops");
               }}
               onBlur={(e) => {
                 if (e.relatedTarget === null || e.relatedTarget.id === "card") {
@@ -127,15 +146,13 @@ export default function Home() {
                 }
               }}
             >
-              پردازنده
+              لپتاپ
             </CustomButton>
           </Grid>
           <Grid item>
             <CustomButton
               onClick={async () => {
-                await setProductListData(initialState);
-                setProductListData([...mockData.ramList]);
-                setCategory("ram");
+                setCategory("/category/mens-watches");
               }}
               onBlur={(e) => {
                 if (e.relatedTarget === null || e.relatedTarget.id === "card") {
@@ -143,35 +160,36 @@ export default function Home() {
                 }
               }}
             >
-              رم کامپیوتر
+              ساعت مچی
             </CustomButton>
           </Grid>
         </Grid>
       </AppBar>
       <List sx={{ flexWrap: "wrap", mt: 17 }}>
         <center>
-          {productListData.map((item) => {
-            return (
-              <ProductCard
-                key={item.random_key}
-                image={item.image_url}
-                name={item.name1}
-                price={item.price}
-                rating={item.rating}
-                freeDelivery={item.isFreeDelivery}
-                onClick={() =>
-                  router.push({
-                    pathname: "/product-details",
-                    query: {
-                      key: item.random_key,
-                      category: category,
-                      shallow: true,
-                    },
-                  })
-                }
-              />
-            );
-          })}
+          {productListData &&
+            productListData?.map((item) => {
+              return (
+                <ProductCard
+                  key={item.id}
+                  image={item.thumbnail}
+                  name={item.title}
+                  price={item.price}
+                  rating={item.rating}
+                  freeDelivery={true}
+                  onClick={() =>
+                    router.push({
+                      pathname: "/product-details",
+                      query: {
+                        category: category,
+                        key: item.id,
+                        shallow: true,
+                      },
+                    })
+                  }
+                />
+              );
+            })}
         </center>
       </List>
     </Grid>

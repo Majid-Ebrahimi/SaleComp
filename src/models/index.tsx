@@ -1,4 +1,4 @@
-export interface Product {
+export interface MockProduct {
   image_url: string;
   rating: number;
   random_key: string;
@@ -17,8 +17,26 @@ export interface Product {
   isFreeDelivery: boolean;
 }
 
+export interface Product {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
+  images: string[];
+}
+
 export interface ProductList {
-  productList: Product[];
+  products: Product[];
+}
+
+export interface MockProductList {
+  productList: MockProduct[];
 }
 
 export interface GraphicModel {
@@ -50,8 +68,8 @@ export interface CpuModel {
 }
 
 export interface DataList {
-  ramList: Product[];
-  cpuList: Product[];
-  graphicList: Product[];
-  mainBoardList: Product[];
+  ramList: MockProduct[];
+  cpuList: MockProduct[];
+  graphicList: MockProduct[];
+  mainBoardList: MockProduct[];
 }

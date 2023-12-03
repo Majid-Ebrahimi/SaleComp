@@ -139,7 +139,7 @@ const ProductCard = (props: Props) => {
                 تومان
                 {Intl.NumberFormat("en-US", {
                   maximumSignificantDigits: 4,
-                }).format(Number(props.price))}
+                }).format(Number(props.price) * 50000)}
               </Typography>
             </Grid>
           </Grid>

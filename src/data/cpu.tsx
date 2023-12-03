@@ -1,5 +1,5 @@
-import { Product } from "@/models";
-export const cpuMockData: Product[] = [
+import { MockProduct } from "@/models";
+export const cpuMockData: MockProduct[] = [
   {
     image_url: "https://image.torob.com/base/images/pQ/rU/pQrUCf8KeJQ0lJ2v.jpg",
     rating: 3.9,

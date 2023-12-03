@@ -1,6 +1,6 @@
-import { Product } from "@/models";
+import { MockProduct } from "@/models";
 
-export const ramMockData: Product[] = [
+export const ramMockData: MockProduct[] = [
   {
     image_url: "https://image.torob.com/base/images/vE/86/vE86CiOyPQ9hbVT2.jpg",
     rating: 4.7,

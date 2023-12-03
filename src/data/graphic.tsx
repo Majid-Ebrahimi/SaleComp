@@ -1,6 +1,6 @@
-import { Product } from "@/models";
+import { MockProduct } from "@/models";
 
-export const graphicMockData: Product[] = [
+export const graphicMockData: MockProduct[] = [
   {
     image_url: "https://image.torob.com/base/images/-9/v2/-9v2MR3qHsos7Iq0.jpg",
     rating: 4.1,

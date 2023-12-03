@@ -1,54 +1,52 @@
-import { Product } from "@/models";
+import { MockProduct } from "@/models";
 import ProductCard from "@/views/cards/product-card/ProductCard";
 import { mockData } from "@/data/MockData";
 import { useRouter } from "next/router";
 
 interface Props {
-  productData?: Product;
+  productData?: MockProduct;
 }
 
 const ProductDetails = (props: Props) => {
   const router = useRouter();
   let filteredData;
   if (router.query.category == "graphic") {
-    filteredData = mockData.graphicList.filter(
+    filteredData = mockData.graphicList.find(
       (i) => i.random_key === router.query.key
     );
   } else if (router.query.category == "ram") {
-    filteredData = mockData.ramList.filter(
+    filteredData = mockData.ramList.find(
       (i) => i.random_key === router.query.key
     );
   } else if (router.query.category == "cpu") {
-    filteredData = mockData.cpuList.filter(
+    filteredData = mockData.cpuList.find(
       (i) => i.random_key === router.query.key
     );
   } else if (router.query.category == "mainBoard") {
-    filteredData = mockData.mainBoardList.filter(
+    filteredData = mockData.mainBoardList.find(
       (i) => i.random_key === router.query.key
     );
   }
+
+  console.log(filteredData);
 
   return (
     <div>
       {!!filteredData ? (
         <ProductCard
-          key={filteredData[0].random_key}
-          image={filteredData[0].image_url}
-          name={filteredData[0].name1}
-          price={filteredData[0].price}
-          rating={filteredData[0].rating}
-          freeDelivery={filteredData[0].isFreeDelivery}
+          key={filteredData.random_key}
+          image={filteredData.image_url}
+          name={filteredData.name1}
+          price={filteredData.price}
+          rating={filteredData.rating}
+          freeDelivery={filteredData.isFreeDelivery}
           onClick={() => {}}
         />
       ) : (
-        <div>something wrong!!!</div>
+        <div>somethings wrong!!!</div>
       )}
     </div>
   );
-
-  {
-    true ? <div></div> : <div></div>;
-  }
 };
 
 export default ProductDetails;

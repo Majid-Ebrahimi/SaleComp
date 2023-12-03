@@ -1,4 +1,4 @@
-import { DataList, ProductList } from "@/models";
+import { DataList, MockProductList } from "@/models";
 import { ramMockData } from "./ram";
 import { cpuMockData } from "./cpu";
 import { graphicMockData } from "./graphic";
