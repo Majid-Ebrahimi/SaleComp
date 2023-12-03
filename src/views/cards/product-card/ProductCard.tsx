@@ -65,15 +65,15 @@ const ProductCard = (props: Props) => {
         alignItems="stretch"
       >
         <div style={{ position: "relative", height: "230px" }}>
-          {props.isLoading ? (
+          {props.isLoading && !props.image && !props.name ? (
             <Skeleton
               animation="wave"
               variant="rounded"
               sx={{ width: "100%", height: "90%", mt: 4 }}
             />
-          ) : (
+          ) : props.image !== undefined && props.name !== undefined ? (
             <Image
-              loader={() => props.image}
+              loader={() => ""}
               alt={props.name}
               src={props.image}
               fill
@@ -82,6 +82,20 @@ const ProductCard = (props: Props) => {
               style={{
                 objectFit: "contain",
               }}
+              loading="lazy"
+            />
+          ) : (
+            <Image
+              loader={() => "images/icon-image-not-found-free-vector.jpg"}
+              alt={""}
+              src={"images/icon-image-not-found-free-vector.jpg"}
+              fill
+              unoptimized
+              sizes="(max-width: 300px) 50vw, 100vw"
+              style={{
+                objectFit: "contain",
+              }}
+              loading="lazy"
             />
           )}
         </div>

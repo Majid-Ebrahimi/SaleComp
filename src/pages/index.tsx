@@ -81,7 +81,6 @@ export default function Home() {
     queryKey: ["products", category],
     retry: false,
     placeholderData: keepPreviousData,
-    // retryDelay: 10,
   });
 
   useEffect(() => {
@@ -182,7 +181,35 @@ export default function Home() {
                 }
               }}
             >
-              ساعت مچی
+              ساعت مچی مردانه
+            </CustomButton>
+          </Grid>
+          <Grid item>
+            <CustomButton
+              onClick={async () => {
+                setCategory("/category/sunglasses");
+              }}
+              onBlur={(e) => {
+                if (e.relatedTarget === null || e.relatedTarget.id === "card") {
+                  e.target.focus();
+                }
+              }}
+            >
+              عینک آفتابی
+            </CustomButton>
+          </Grid>
+          <Grid item>
+            <CustomButton
+              onClick={async () => {
+                setCategory("/category/womens-watches");
+              }}
+              onBlur={(e) => {
+                if (e.relatedTarget === null || e.relatedTarget.id === "card") {
+                  e.target.focus();
+                }
+              }}
+            >
+              ساعت مچی زنانه
             </CustomButton>
           </Grid>
         </Grid>
