@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Product, ProductList } from "@/models";
+import { LoadingButton } from "@mui/lab";
 
 const jura = Jura({
   subsets: ["latin"],
@@ -38,9 +39,29 @@ const CustomButton = styled(Button)({
 });
 
 export default function Home() {
-  const initialState: any[] = [];
-
   const [category, setCategory] = useState("");
+  const loadingState: any[] = [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+  ];
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setCategory(newValue);
@@ -55,11 +76,12 @@ export default function Home() {
     ).data;
   };
 
-  const { isLoading, error, data } = useQuery<ProductList>({
+  const { isFetching, error, data, isLoading } = useQuery<ProductList>({
     queryFn: () => getProductByCategory(category),
     queryKey: ["products", category],
-    retry: 3,
+    retry: false,
     placeholderData: keepPreviousData,
+    // retryDelay: 10,
   });
 
   useEffect(() => {
@@ -67,7 +89,7 @@ export default function Home() {
   }, [data]);
 
   const [productListData, setProductListData] = useState<Product[] | undefined>(
-    data?.products
+    loadingState
   );
 
   return (
@@ -167,7 +189,14 @@ export default function Home() {
       </AppBar>
       <List sx={{ flexWrap: "wrap", mt: 17 }}>
         <center>
-          {productListData &&
+          {error ? (
+            <div>Error</div>
+          ) : isFetching || isLoading ? (
+            loadingState.map(() => {
+              // eslint-disable-next-line react/jsx-key
+              return <ProductCard isLoading />;
+            })
+          ) : (
             productListData?.map((item) => {
               return (
                 <ProductCard
@@ -189,7 +218,8 @@ export default function Home() {
                   }
                 />
               );
-            })}
+            })
+          )}
         </center>
       </List>
     </Grid>
