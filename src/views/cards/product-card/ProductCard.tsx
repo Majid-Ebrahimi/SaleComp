@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import PriceTypography from "@/components/price-typography";
 
 interface Props {
   image?: string;
@@ -150,9 +151,9 @@ const ProductCard = (props: Props) => {
               display: "-webkit-box",
               overflow: "hidden",
               WebkitBoxOrient: "vertical",
-              WebkitLineClamp: 3,
+              WebkitLineClamp: 2,
               mb: 1,
-              minHeight: 65,
+              minHeight: 35,
             }}
           >
             {props.isLoading ? (
@@ -193,12 +194,7 @@ const ProductCard = (props: Props) => {
                   </Grid>
                 </Grid>
                 <Grid item>
-                  <Typography variant="body1" sx={{ mb: 2 }}>
-                    تومان
-                    {Intl.NumberFormat("en-US", {
-                      maximumSignificantDigits: 4,
-                    }).format(Number(props.price) * 50000)}
-                  </Typography>
+                  <PriceTypography price={props.price} />
                 </Grid>
               </>
             )}

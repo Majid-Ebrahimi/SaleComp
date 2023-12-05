@@ -1,7 +1,15 @@
 import { mockData } from "@/data/MockData";
 import { Jura } from "next/font/google";
 import ProductCard from "@/views/cards/product-card/ProductCard";
-import { AppBar, Button, Grid, List, Typography } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Grid,
+  List,
+  Slide,
+  Typography,
+  useScrollTrigger,
+} from "@mui/material";
 
 import { styled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
@@ -37,6 +45,28 @@ const CustomButton = styled(Button)({
     boxShadow: "0px 0px 8px 0px rgba(0, 0, 0, 0.50)",
   },
 });
+
+interface HideOnScrollProps {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window?: () => Window;
+  children: React.ReactElement;
+}
+
+function HideOnScroll(props: HideOnScrollProps) {
+  const { children, window } = props;
+  const trigger = useScrollTrigger({
+    target: window ? window() : undefined,
+  });
+
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  );
+}
 
 export default function Home() {
   const [category, setCategory] = useState("");
@@ -99,121 +129,147 @@ export default function Home() {
       justifyContent="center"
       alignItems="center"
     >
-      <AppBar sx={{ backgroundColor: "rgba(0, 141, 187)" }} position="fixed">
-        <Grid sx={{ backgroundColor: "white" }}>
-          <Typography
-            className={jura.className}
-            sx={{
-              color: "#2889A9",
-              fontSize: "40px",
-              fontStyle: "normal",
-              fontWeight: "700",
-              lineHeight: "normal",
-              mx: "7%",
-              my: 2,
-            }}
-          >
-            SaleComp
-          </Typography>
-        </Grid>
-        <Grid
-          maxHeight={50}
-          overflow={"visible"}
-          container
-          direction="row"
-          justifyContent="space-evenly"
+      <HideOnScroll>
+        <AppBar
+          component={"nav"}
+          sx={{ backgroundColor: "inherit" }}
+          position="fixed"
         >
-          <Grid sx={{ p: 1 }} item>
-            <Typography color={"inherit"} variant="h5">
-              محصولات
+          <Grid>
+            <Typography
+              className={jura.className}
+              sx={{
+                color: "#2889A9",
+                fontSize: "40px",
+                fontStyle: "normal",
+                fontWeight: "700",
+                lineHeight: "normal",
+                mx: "7%",
+                my: 2,
+              }}
+            >
+              SaleComp
             </Typography>
           </Grid>
-          <Grid item>
-            <CustomButton
-              onClick={async () => {
-                setCategory("");
-              }}
-              onBlur={(e) => {
-                if (e.relatedTarget === null || e.relatedTarget.id === "card") {
-                  e.target.focus();
-                }
-              }}
-            >
-              همه ی محصولات
-            </CustomButton>
+
+          <Grid
+            sx={{ backgroundColor: "rgba(0, 141, 187)" }}
+            maxHeight={50}
+            overflow={"visible"}
+            container
+            direction="row"
+            justifyContent="space-evenly"
+          >
+            <Grid sx={{ p: 1 }} item>
+              <Typography color={"inherit"} variant="h5">
+                محصولات
+              </Typography>
+            </Grid>
+            <Grid item>
+              <CustomButton
+                onClick={async () => {
+                  setCategory("");
+                }}
+                onBlur={(e) => {
+                  if (
+                    e.relatedTarget === null ||
+                    e.relatedTarget.id === "card"
+                  ) {
+                    e.target.focus();
+                  }
+                }}
+              >
+                همه ی محصولات
+              </CustomButton>
+            </Grid>
+            <Grid item>
+              <CustomButton
+                onClick={async () => {
+                  setCategory("/category/smartphones");
+                }}
+                onBlur={(e) => {
+                  if (
+                    e.relatedTarget === null ||
+                    e.relatedTarget.id === "card"
+                  ) {
+                    e.target.focus();
+                  }
+                }}
+              >
+                تلفن همراه
+              </CustomButton>
+            </Grid>
+            <Grid item>
+              <CustomButton
+                onClick={async () => {
+                  setCategory("/category/laptops");
+                }}
+                onBlur={(e) => {
+                  if (
+                    e.relatedTarget === null ||
+                    e.relatedTarget.id === "card"
+                  ) {
+                    e.target.focus();
+                  }
+                }}
+              >
+                لپتاپ
+              </CustomButton>
+            </Grid>
+            <Grid item>
+              <CustomButton
+                onClick={async () => {
+                  setCategory("/category/mens-watches");
+                }}
+                onBlur={(e) => {
+                  if (
+                    e.relatedTarget === null ||
+                    e.relatedTarget.id === "card"
+                  ) {
+                    e.target.focus();
+                  }
+                }}
+              >
+                ساعت مچی مردانه
+              </CustomButton>
+            </Grid>
+            <Grid item>
+              <CustomButton
+                onClick={async () => {
+                  setCategory("/category/sunglasses");
+                }}
+                onBlur={(e) => {
+                  if (
+                    e.relatedTarget === null ||
+                    e.relatedTarget.id === "card"
+                  ) {
+                    e.target.focus();
+                  }
+                }}
+              >
+                عینک آفتابی
+              </CustomButton>
+            </Grid>
+            <Grid item>
+              <CustomButton
+                onClick={async () => {
+                  setCategory("/category/womens-watches");
+                }}
+                onBlur={(e) => {
+                  if (
+                    e.relatedTarget === null ||
+                    e.relatedTarget.id === "card"
+                  ) {
+                    e.target.focus();
+                  }
+                }}
+              >
+                ساعت مچی زنانه
+              </CustomButton>
+            </Grid>
           </Grid>
-          <Grid item>
-            <CustomButton
-              onClick={async () => {
-                setCategory("/category/smartphones");
-              }}
-              onBlur={(e) => {
-                if (e.relatedTarget === null || e.relatedTarget.id === "card") {
-                  e.target.focus();
-                }
-              }}
-            >
-              تلفن همراه
-            </CustomButton>
-          </Grid>
-          <Grid item>
-            <CustomButton
-              onClick={async () => {
-                setCategory("/category/laptops");
-              }}
-              onBlur={(e) => {
-                if (e.relatedTarget === null || e.relatedTarget.id === "card") {
-                  e.target.focus();
-                }
-              }}
-            >
-              لپتاپ
-            </CustomButton>
-          </Grid>
-          <Grid item>
-            <CustomButton
-              onClick={async () => {
-                setCategory("/category/mens-watches");
-              }}
-              onBlur={(e) => {
-                if (e.relatedTarget === null || e.relatedTarget.id === "card") {
-                  e.target.focus();
-                }
-              }}
-            >
-              ساعت مچی مردانه
-            </CustomButton>
-          </Grid>
-          <Grid item>
-            <CustomButton
-              onClick={async () => {
-                setCategory("/category/sunglasses");
-              }}
-              onBlur={(e) => {
-                if (e.relatedTarget === null || e.relatedTarget.id === "card") {
-                  e.target.focus();
-                }
-              }}
-            >
-              عینک آفتابی
-            </CustomButton>
-          </Grid>
-          <Grid item>
-            <CustomButton
-              onClick={async () => {
-                setCategory("/category/womens-watches");
-              }}
-              onBlur={(e) => {
-                if (e.relatedTarget === null || e.relatedTarget.id === "card") {
-                  e.target.focus();
-                }
-              }}
-            >
-              ساعت مچی زنانه
-            </CustomButton>
-          </Grid>
-        </Grid>
-      </AppBar>
+        </AppBar>
+      </HideOnScroll>
       <List sx={{ flexWrap: "wrap", mt: 17 }}>
         <center>
           {error ? (
