@@ -39,7 +39,7 @@ const ProductDetails = () => {
     queryFn: async () =>
       (await axios.get(`https://dummyjson.com/products/${router.query.id}`))
         .data,
-    queryKey: ["products"],
+    queryKey: ["product"],
     retry: false,
   });
 

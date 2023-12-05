@@ -18,6 +18,7 @@ import axios from "axios";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Product, ProductList } from "@/models";
 import { LoadingButton } from "@mui/lab";
+import NavigationMenu from "@/components/navigation-menu";
 
 const jura = Jura({
   subsets: ["latin"],
@@ -93,9 +94,9 @@ export default function Home() {
     {},
   ];
 
-  /* const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setCategory(newValue);
-  }; */
+  const handleChangeCategory = (category: string) => {
+    setCategory(category);
+  };
   const router = useRouter();
 
   const getProductByCategory = async (category = "") => {
@@ -111,6 +112,18 @@ export default function Home() {
     queryKey: ["products", category],
     retry: false,
     placeholderData: keepPreviousData,
+  });
+
+  const {
+    isFetching: categoriesIsFetching,
+    error: categoriesError,
+    data: categoriesData,
+    isLoading: categoriesIsLoading,
+  } = useQuery<Product["category"][] | undefined[]>({
+    queryFn: async () =>
+      (await axios.get(`https://dummyjson.com/products/categories`)).data,
+    queryKey: ["categories"],
+    retry: false,
   });
 
   useEffect(() => {
@@ -160,7 +173,11 @@ export default function Home() {
             direction="row"
             justifyContent="space-evenly"
           >
-            <Grid sx={{ p: 1 }} item>
+            <NavigationMenu
+              categories={categoriesData}
+              setCategory={setCategory}
+            />
+            {/* <Grid sx={{ p: 1 }} item>
               <Typography color={"inherit"} variant="h5">
                 محصولات
               </Typography>
@@ -266,7 +283,7 @@ export default function Home() {
               >
                 ساعت مچی زنانه
               </CustomButton>
-            </Grid>
+            </Grid> */}
           </Grid>
         </AppBar>
       </HideOnScroll>
