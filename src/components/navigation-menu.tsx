@@ -1,5 +1,17 @@
 import { Product } from "@/models";
-import { Box, Tab, Tabs, TextField, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Tab,
+  Tabs,
+  TextField,
+  styled,
+} from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
 
 interface Props {
@@ -32,19 +44,18 @@ const CustomTab = styled(Tab)({
 });
 
 const NavigationMenu = (props: Props) => {
-  const [value, setValue] = useState(-1);
+  /* const [value, setValue] = useState(-1);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
     props.setCategory(`/category/${event.currentTarget.textContent as string}`);
-  };
-  return (
+  }; */
+  /* return (
     <Box sx={{ direction: "ltr", width: "100%" }}>
       <Tabs
         onChange={handleChange}
         value={value}
         variant="scrollable"
         scrollButtons
-        // indicatorColor={""}
         allowScrollButtonsMobile
         aria-label="Tabs where each tab needs to be selected manually"
       >
@@ -54,6 +65,82 @@ const NavigationMenu = (props: Props) => {
           })}
       </Tabs>
     </Box>
+  ); */
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const open = Boolean(anchorEl);
+  const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+    // console.log(event.currentTarget.textContent);
+  };
+
+  const handleMenuItemClick = (
+    event: React.MouseEvent<HTMLElement>,
+    index: number
+  ) => {
+    props.categories !== undefined &&
+      props.setCategory(
+        `/category/${event.currentTarget.textContent as string}`
+      );
+    setSelectedIndex(index);
+    setAnchorEl(null);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    <div>
+      <Button
+        id="demo-positioned-button"
+        aria-controls={open ? "demo-positioned-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        variant="contained"
+        onClick={handleClickListItem}
+      >
+        {props.categories?.[selectedIndex]
+          ? props.categories?.[selectedIndex]
+          : "All Categories"}
+      </Button>
+      <Menu
+        id="lock-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "lock-button",
+          role: "listbox",
+        }}
+        PaperProps={{
+          style: {
+            maxHeight: 400,
+          },
+        }}
+      >
+        {/*TODO: fix thisline */}
+        <MenuItem
+          // disabled={index === 0}
+          selected={-1 === selectedIndex}
+          onClick={() => {
+            setSelectedIndex(-1);
+            setAnchorEl(null);
+            props.setCategory("");
+          }}
+        >
+          All Categories
+        </MenuItem>
+        {props.categories?.map((item, index) => (
+          <MenuItem
+            key={item}
+            selected={index === selectedIndex}
+            onClick={(event) => handleMenuItemClick(event, index)}
+          >
+            {item}
+          </MenuItem>
+        ))}
+      </Menu>
+    </div>
   );
 };
 

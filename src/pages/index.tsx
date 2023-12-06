@@ -187,39 +187,47 @@ export default function Home() {
             direction={"row"}
             sx={{ my: 2, px: "5%" }}
           >
-            <Typography
-              className={jura.className}
-              sx={{
-                color: "#2889A9",
-                fontSize: "40px",
-                fontStyle: "normal",
-                fontWeight: "700",
-                lineHeight: "normal",
-              }}
-            >
-              SaleComp
-            </Typography>
-            <form style={{ margin: "5px 0 0 5%" }}>
-              <TextField
-                value={searchItemValue}
-                label="search"
-                variant="outlined"
-                size="small"
-                type="text"
-                placeholder="iphone..."
-                onChange={(e) => handleSearch(e.target.value)}
-              />
-              <LoadingButton
-                variant="contained"
-                onClick={handleSubmit}
-                loading={isSearchingFetch || isSearchingLoad}
+            <Grid item display={"flex"}>
+              <Typography
+                className={jura.className}
+                sx={{
+                  color: "#2889A9",
+                  fontSize: "40px",
+                  fontStyle: "normal",
+                  fontWeight: "700",
+                  lineHeight: "normal",
+                }}
               >
-                search
-              </LoadingButton>
-            </form>
+                SaleComp
+              </Typography>
+              <NavigationMenu
+                categories={categoriesData}
+                setCategory={setCategory}
+              />
+            </Grid>
+            <Grid item>
+              <form style={{ margin: "5px 0 0 5%" }}>
+                <TextField
+                  value={searchItemValue}
+                  label="search"
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  placeholder="iphone..."
+                  onChange={(e) => handleSearch(e.target.value)}
+                />
+                <LoadingButton
+                  variant="contained"
+                  onClick={handleSubmit}
+                  loading={isSearchingFetch || isSearchingLoad}
+                >
+                  search
+                </LoadingButton>
+              </form>
+            </Grid>
           </Grid>
 
-          <Grid
+          {/* <Grid
             sx={{ backgroundColor: "rgba(0, 141, 187)" }}
             maxHeight={50}
             overflow={"visible"}
@@ -231,7 +239,7 @@ export default function Home() {
               categories={categoriesData}
               setCategory={setCategory}
             />
-            {/* <Grid sx={{ p: 1 }} item>
+            <Grid sx={{ p: 1 }} item>
               <Typography color={"inherit"} variant="h5">
                 محصولات
               </Typography>
@@ -337,8 +345,8 @@ export default function Home() {
               >
                 ساعت مچی زنانه
               </CustomButton>
-            </Grid> */}
-          </Grid>
+            </Grid>
+          </Grid> */}
         </AppBar>
       </HideOnScroll>
       <List sx={{ flexWrap: "wrap", mt: 17 }}>

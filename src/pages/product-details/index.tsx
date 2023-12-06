@@ -1,22 +1,16 @@
-import { MockProduct, Product } from "@/models";
-import ProductCard from "@/views/cards/product-card/ProductCard";
+import { Product } from "@/models";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import {
   Box,
   Button,
-  ButtonBase,
-  Card,
   Divider,
   Grid,
   Skeleton,
-  SxProps,
-  Theme,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import { inherits } from "util";
 import PriceTypography from "@/components/price-typography";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
