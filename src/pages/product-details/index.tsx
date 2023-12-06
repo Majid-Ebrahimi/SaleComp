@@ -10,11 +10,13 @@ import {
   Card,
   Divider,
   Grid,
+  Skeleton,
+  SxProps,
+  Theme,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
 import { inherits } from "util";
-import { Container } from "@mui/joy";
 import PriceTypography from "@/components/price-typography";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,14 +24,24 @@ import "react-toastify/dist/ReactToastify.css";
 interface CustomSubtitleProps {
   subjectText: string;
   contentText: string | number;
+  isLoading?: boolean;
 }
 const CustomSubtitle = (props: CustomSubtitleProps) => {
-  return (
-    <Typography color={"#2C2C34"} variant="body2" marginBottom={1}>
-      <span style={{ color: "#2889A9" }}>{props.subjectText}:</span>{" "}
-      {props.contentText}
-    </Typography>
-  );
+  if (!props.isLoading) {
+    return (
+      <Typography color={"#2C2C34"} variant="body1" marginBottom={1}>
+        <span style={{ color: "#2889A9" }}>{props.subjectText}: </span>
+        {props.contentText}
+      </Typography>
+    );
+  } else {
+    return (
+      <>
+        <span style={{ color: "#2889A9" }}>{props.subjectText}: </span>
+        <Skeleton animation={"wave"} sx={{ width: "30%" }} variant="text" />
+      </>
+    );
+  }
 };
 
 const ProductDetails = () => {
@@ -51,21 +63,29 @@ const ProductDetails = () => {
             <Box
               sx={{
                 position: "relative",
-                height: 300,
-                width: 300,
+                height: 400,
+                width: 400,
               }}
             >
-              <Image
-                loader={() => data.thumbnail}
-                alt={data?.title}
-                src={data?.thumbnail}
-                fill
-                unoptimized
-                style={{
-                  objectFit: "contain",
-                }}
-                loading="lazy"
-              />
+              {!(isFetching || isLoading) ? (
+                <Image
+                  loader={() => data.thumbnail}
+                  alt={data?.title}
+                  src={data?.thumbnail}
+                  fill
+                  unoptimized
+                  style={{
+                    objectFit: "contain",
+                  }}
+                  loading="lazy"
+                />
+              ) : (
+                <Skeleton
+                  animation={"wave"}
+                  sx={{ width: "100%", height: "100%", m: 1 }}
+                  variant="rounded"
+                />
+              )}
             </Box>
           </Grid>
           <Grid item>
@@ -80,37 +100,57 @@ const ProductDetails = () => {
               sx={{
                 p: 2,
                 my: 3,
-                mx: 6,
-                maxWidth: 500,
-                maxHeight: 500,
-                minHeight: 400,
+                mx: 4,
+                maxWidth: 600,
+                maxHeight: 600,
+                minHeight: 500,
+                minWidth: 350,
                 border: "1px solid #B9BBBE",
                 borderRadius: "3px",
-                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.50)",
+                boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.30)",
               }}
             >
               <Grid item>
                 <center>
-                  <Typography gutterBottom variant="h6">
-                    {data.title}
-                  </Typography>
+                  {!(isFetching || isLoading) ? (
+                    <Typography gutterBottom variant="h5">
+                      {data.title}
+                    </Typography>
+                  ) : (
+                    <Skeleton
+                      animation={"wave"}
+                      sx={{ width: "30%" }}
+                      variant="rounded"
+                    />
+                  )}
                 </center>
-                <Typography variant="body1" marginBottom={2}>
-                  مشخصات
-                </Typography>
-                <CustomSubtitle contentText={data.brand} subjectText="برند" />
-                <CustomSubtitle
-                  contentText={data.category}
-                  subjectText="دسته یندی"
-                />
-                <CustomSubtitle
-                  contentText={data.stock}
-                  subjectText="تعداد موجودی"
-                />
-                <CustomSubtitle
-                  contentText={data.rating}
-                  subjectText="امتیاز"
-                />
+                {
+                  <>
+                    <Typography variant="h6" marginBottom={2}>
+                      Information
+                    </Typography>
+                    <CustomSubtitle
+                      contentText={data.brand}
+                      subjectText="Brand"
+                      isLoading={isFetching || isLoading}
+                    />
+                    <CustomSubtitle
+                      contentText={data.category}
+                      subjectText="Category"
+                      isLoading={isFetching || isLoading}
+                    />
+                    <CustomSubtitle
+                      contentText={data.stock}
+                      subjectText="Stock"
+                      isLoading={isFetching || isLoading}
+                    />
+                    <CustomSubtitle
+                      contentText={data.rating}
+                      subjectText="Rating"
+                      isLoading={isFetching || isLoading}
+                    />
+                  </>
+                }
 
                 <Grid
                   sx={{
@@ -123,7 +163,8 @@ const ProductDetails = () => {
                 >
                   <CustomSubtitle
                     contentText={data.description}
-                    subjectText="توضیحات"
+                    subjectText="Description"
+                    isLoading={isFetching || isLoading}
                   />
                 </Grid>
               </Grid>
@@ -135,30 +176,37 @@ const ProductDetails = () => {
                 justifyContent="space-between"
                 alignItems="flex-end"
               >
-                <PriceTypography
-                  sx={{
-                    px: 4,
-                    my: 2,
-                  }}
-                  price={data.price}
-                />
+                {!(isFetching || isLoading) ? (
+                  <PriceTypography
+                    sx={{
+                      pr: 8,
+                      my: 1,
+                    }}
+                    price={data.price}
+                  />
+                ) : (
+                  <Skeleton
+                    sx={{
+                      my: 1,
+                      width: "30%",
+                    }}
+                    animation={"wave"}
+                    variant="text"
+                  />
+                )}
                 <Button
+                  disabled={isFetching || isLoading}
                   sx={{
                     borderRadius: "3px",
                     backgroundColor: "#00C0FF",
                     px: 4,
                   }}
                   onClick={() => {
-                    toast.success(
-                      `با موفقیت به سبد خرید اضافه شد ${data.title}`,
-                      {
-                        position: "top-left",
-                      }
-                    );
+                    toast.success(`${data.title} Successfully Added to Basket`);
                   }}
                   variant="contained"
                 >
-                  افزودن به سبد خرید
+                  Add to Basket
                 </Button>
                 <ToastContainer />
               </Grid>

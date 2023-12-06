@@ -42,6 +42,7 @@ const TitleTypography = styled(Typography)(({ theme }) => ({
 const ProductCard = (props: Props) => {
   return (
     <ProductButton
+      disabled={props.isLoading}
       id="card"
       onClick={props.onClick}
       sx={{
@@ -133,11 +134,11 @@ const ProductCard = (props: Props) => {
                     ></Image>
                   )}
                 </Grid>
-                <Grid item>
+                <Grid item sx={{ mx: 0.5 }}>
                   {props.freeDelivery ? (
-                    <Typography>ارسال رایگان</Typography>
+                    <Typography>Free Delivery</Typography>
                   ) : (
-                    <Typography>ارسال سریع</Typography>
+                    <Typography>Fast Delivery</Typography>
                   )}
                 </Grid>
               </>
@@ -146,7 +147,7 @@ const ProductCard = (props: Props) => {
 
           <Grid
             container
-            textAlign={"start"}
+            textAlign={"end"}
             sx={{
               display: "-webkit-box",
               overflow: "hidden",
@@ -184,7 +185,7 @@ const ProductCard = (props: Props) => {
                       {props.rating}
                     </Typography>
                   </Grid>
-                  <Grid item sx={{ mx: 0.5 }}>
+                  <Grid item>
                     <Image
                       width={22}
                       height={22}

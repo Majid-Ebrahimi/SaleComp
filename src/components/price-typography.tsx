@@ -9,11 +9,11 @@ const PriceTypography = (props: Props) => {
   return (
     <>
       <Typography variant="body1" sx={props.sx}>
-        تومان
-        <b>
+        $
+        <b style={{ margin: "0 2px 0 2px" }}>
           {Intl.NumberFormat("en-US", {
             maximumSignificantDigits: 4,
-          }).format(Number(props.price) * 50000)}
+          }).format(Number(props.price))}
         </b>
       </Typography>
     </>

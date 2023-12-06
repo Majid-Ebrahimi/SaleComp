@@ -21,7 +21,7 @@ const Layout: FC<LayoutProps> = ({ children }) => {
 
   return (
     <main>
-      <main dir="rtl">{children}</main>
+      <main>{children}</main>
       <Footer />
     </main>
   );

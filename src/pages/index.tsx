@@ -7,6 +7,7 @@ import {
   Grid,
   List,
   Slide,
+  TextField,
   Typography,
   useScrollTrigger,
 } from "@mui/material";
@@ -71,6 +72,9 @@ function HideOnScroll(props: HideOnScrollProps) {
 
 export default function Home() {
   const [category, setCategory] = useState("");
+  const [searchItem, setSearchItem] = useState("");
+  const [searchItemValue, setSearchItemValue] = useState("");
+
   const loadingState: any[] = [
     {},
     {},
@@ -94,9 +98,9 @@ export default function Home() {
     {},
   ];
 
-  const handleChangeCategory = (category: string) => {
+  /* const handleChangeCategory = (category: string) => {
     setCategory(category);
-  };
+  }; */
   const router = useRouter();
 
   const getProductByCategory = async (category = "") => {
@@ -106,6 +110,22 @@ export default function Home() {
       )
     ).data;
   };
+
+  const {
+    isFetching: isSearchingFetch,
+    error: searchError,
+    data: searchedData,
+    isLoading: isSearchingLoad,
+    refetch: searchedDataRefetch,
+  } = useQuery<ProductList>({
+    queryFn: async () =>
+      (await axios.get(`https://dummyjson.com/products/search?q=${searchItem}`))
+        .data,
+    queryKey: ["searchedProducts"],
+    retry: false,
+    enabled: false,
+    placeholderData: keepPreviousData,
+  });
 
   const { isFetching, error, data, isLoading } = useQuery<ProductList>({
     queryFn: () => getProductByCategory(category),
@@ -130,9 +150,21 @@ export default function Home() {
     setProductListData(data?.products);
   }, [data]);
 
+  useEffect(() => {
+    setProductListData(searchedData?.products);
+  }, [searchItem, searchedData]);
+
   const [productListData, setProductListData] = useState<Product[] | undefined>(
     loadingState
   );
+
+  const handleSearch = (value: string) => {
+    setSearchItemValue(value);
+  };
+  const handleSubmit = async () => {
+    await setSearchItem(searchItemValue);
+    setProductListData(searchedData?.products);
+  };
 
   return (
     <Grid
@@ -145,10 +177,16 @@ export default function Home() {
       <HideOnScroll>
         <AppBar
           component={"nav"}
-          sx={{ backgroundColor: "inherit" }}
+          sx={{ backgroundColor: "#EAFAFF" }}
           position="fixed"
         >
-          <Grid>
+          <Grid
+            container
+            justifyContent={"space-between"}
+            alignContent={"center"}
+            direction={"row"}
+            sx={{ my: 2, px: "5%" }}
+          >
             <Typography
               className={jura.className}
               sx={{
@@ -157,12 +195,28 @@ export default function Home() {
                 fontStyle: "normal",
                 fontWeight: "700",
                 lineHeight: "normal",
-                mx: "7%",
-                my: 2,
               }}
             >
               SaleComp
             </Typography>
+            <form style={{ margin: "5px 0 0 5%" }}>
+              <TextField
+                value={searchItemValue}
+                label="search"
+                variant="outlined"
+                size="small"
+                type="text"
+                placeholder="iphone..."
+                onChange={(e) => handleSearch(e.target.value)}
+              />
+              <LoadingButton
+                variant="contained"
+                onClick={handleSubmit}
+                loading={isSearchingFetch || isSearchingLoad}
+              >
+                search
+              </LoadingButton>
+            </form>
           </Grid>
 
           <Grid
