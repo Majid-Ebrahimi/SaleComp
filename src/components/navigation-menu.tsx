@@ -1,21 +1,12 @@
 import { Product } from "@/models";
-import {
-  Box,
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  Menu,
-  MenuItem,
-  Tab,
-  Tabs,
-  TextField,
-  styled,
-} from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Button, Menu, MenuItem, Tab, styled } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { Dispatch, SetStateAction, useState } from "react";
 
 interface Props {
-  categories: Product["category"][] | undefined[] | undefined;
+  // categories: Product["category"][] | undefined[] | undefined;
   setCategory: Dispatch<SetStateAction<string>>;
 }
 
@@ -44,41 +35,30 @@ const CustomTab = styled(Tab)({
 });
 
 const NavigationMenu = (props: Props) => {
-  /* const [value, setValue] = useState(-1);
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-    props.setCategory(`/category/${event.currentTarget.textContent as string}`);
-  }; */
-  /* return (
-    <Box sx={{ direction: "ltr", width: "100%" }}>
-      <Tabs
-        onChange={handleChange}
-        value={value}
-        variant="scrollable"
-        scrollButtons
-        allowScrollButtonsMobile
-        aria-label="Tabs where each tab needs to be selected manually"
-      >
-        {props.categories &&
-          props.categories.map((item) => {
-            return <Tab key={item} label={item} />;
-          })}
-      </Tabs>
-    </Box>
-  ); */
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const open = Boolean(anchorEl);
   const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
-    // console.log(event.currentTarget.textContent);
   };
+
+  const {
+    isFetching: categoriesIsFetching,
+    error: categoriesError,
+    data: categoriesData,
+    isLoading: categoriesIsLoading,
+  } = useQuery<Product["category"][] | undefined[]>({
+    queryFn: async () =>
+      (await axios.get(`https://dummyjson.com/products/categories`)).data,
+    queryKey: ["categories"],
+    retry: false,
+  });
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLElement>,
     index: number
   ) => {
-    props.categories !== undefined &&
+    categoriesData !== undefined &&
       props.setCategory(
         `/category/${event.currentTarget.textContent as string}`
       );
@@ -91,18 +71,19 @@ const NavigationMenu = (props: Props) => {
   };
   return (
     <div>
-      <Button
+      <LoadingButton
         id="demo-positioned-button"
         aria-controls={open ? "demo-positioned-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         variant="contained"
         onClick={handleClickListItem}
+        loading={categoriesIsFetching || categoriesIsLoading}
       >
-        {props.categories?.[selectedIndex]
-          ? props.categories?.[selectedIndex]
+        {categoriesData?.[selectedIndex]
+          ? categoriesData?.[selectedIndex]
           : "All Categories"}
-      </Button>
+      </LoadingButton>
       <Menu
         id="lock-menu"
         anchorEl={anchorEl}
@@ -118,9 +99,7 @@ const NavigationMenu = (props: Props) => {
           },
         }}
       >
-        {/*TODO: fix thisline */}
         <MenuItem
-          // disabled={index === 0}
           selected={-1 === selectedIndex}
           onClick={() => {
             setSelectedIndex(-1);
@@ -130,7 +109,7 @@ const NavigationMenu = (props: Props) => {
         >
           All Categories
         </MenuItem>
-        {props.categories?.map((item, index) => (
+        {categoriesData?.map((item, index) => (
           <MenuItem
             key={item}
             selected={index === selectedIndex}

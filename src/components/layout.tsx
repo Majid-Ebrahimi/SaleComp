@@ -10,15 +10,6 @@ interface LayoutProps {
 }
 
 const Layout: FC<LayoutProps> = ({ children }) => {
-  /*   const { isFetching, error, data, isLoading } = useQuery<
-    Product["category"][] | undefined[]
-  >({
-    queryFn: async () =>
-      (await axios.get(`https://dummyjson.com/products/categories`)).data,
-    queryKey: ["categories"],
-    retry: false,
-  }); */
-
   return (
     <main>
       <main>{children}</main>

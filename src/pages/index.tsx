@@ -134,18 +134,6 @@ export default function Home() {
     placeholderData: keepPreviousData,
   });
 
-  const {
-    isFetching: categoriesIsFetching,
-    error: categoriesError,
-    data: categoriesData,
-    isLoading: categoriesIsLoading,
-  } = useQuery<Product["category"][] | undefined[]>({
-    queryFn: async () =>
-      (await axios.get(`https://dummyjson.com/products/categories`)).data,
-    queryKey: ["categories"],
-    retry: false,
-  });
-
   useEffect(() => {
     setProductListData(data?.products);
   }, [data]);
@@ -162,8 +150,15 @@ export default function Home() {
     setSearchItemValue(value);
   };
   const handleSubmit = async () => {
-    await setSearchItem(searchItemValue);
-    setProductListData(searchedData?.products);
+    console.log(searchItemValue);
+    if (searchItemValue === "") {
+      // await setCategory("");
+      setProductListData(data?.products);
+    } else {
+      await setSearchItem(searchItemValue);
+      searchedDataRefetch();
+      setProductListData(searchedData?.products);
+    }
   };
 
   return (
@@ -201,29 +196,30 @@ export default function Home() {
                 SaleComp
               </Typography>
               <NavigationMenu
-                categories={categoriesData}
+                // categories={categoriesData}
                 setCategory={setCategory}
               />
             </Grid>
             <Grid item>
-              <form style={{ margin: "5px 0 0 5%" }}>
-                <TextField
-                  value={searchItemValue}
-                  label="search"
-                  variant="outlined"
-                  size="small"
-                  type="text"
-                  placeholder="iphone..."
-                  onChange={(e) => handleSearch(e.target.value)}
-                />
-                <LoadingButton
-                  variant="contained"
-                  onClick={handleSubmit}
-                  loading={isSearchingFetch || isSearchingLoad}
-                >
-                  search
-                </LoadingButton>
-              </form>
+              <TextField
+                value={searchItemValue}
+                label="search"
+                variant="outlined"
+                size="small"
+                type="text"
+                placeholder="iphone..."
+                onChange={(e) => handleSearch(e.target.value)}
+              />
+              <LoadingButton
+                variant="contained"
+                onClick={handleSubmit}
+                loading={isSearchingFetch || isSearchingLoad}
+              >
+                search
+              </LoadingButton>
+              {/* <form style={{ margin: "5px 0 0 5%" }}>
+                
+              </form> */}
             </Grid>
           </Grid>
 
