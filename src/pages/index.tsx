@@ -7,6 +7,7 @@ import {
   Grid,
   List,
   Slide,
+  TextField,
   Typography,
   useScrollTrigger,
 } from "@mui/material";
@@ -18,6 +19,7 @@ import axios from "axios";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Product, ProductList } from "@/models";
 import { LoadingButton } from "@mui/lab";
+import NavigationMenu from "@/components/navigation-menu";
 
 const jura = Jura({
   subsets: ["latin"],
@@ -68,34 +70,36 @@ function HideOnScroll(props: HideOnScrollProps) {
   );
 }
 
+const loadingState: any[] = [
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+];
 export default function Home() {
   const [category, setCategory] = useState("");
-  const loadingState: any[] = [
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-  ];
+  const [searchItem, setSearchItem] = useState("");
+  const [searchItemValue, setSearchItemValue] = useState("");
+  const [productListData, setProductListData] = useState<Product[] | undefined>(
+    loadingState
+  );
 
-  /* const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setCategory(newValue);
-  }; */
   const router = useRouter();
 
   const getProductByCategory = async (category = "") => {
@@ -106,10 +110,26 @@ export default function Home() {
     ).data;
   };
 
+  const {
+    isFetching: isSearchingFetch,
+    error: searchError,
+    data: searchedData,
+    isLoading: isSearchingLoad,
+    refetch: searchedDataRefetch,
+  } = useQuery<ProductList>({
+    queryFn: async () =>
+      (await axios.get(`https://dummyjson.com/products/search?q=${searchItem}`))
+        .data,
+    queryKey: ["searchedProducts"],
+    retry: false,
+    enabled: false,
+    placeholderData: keepPreviousData,
+  });
+
   const { isFetching, error, data, isLoading } = useQuery<ProductList>({
     queryFn: () => getProductByCategory(category),
     queryKey: ["products", category],
-    retry: false,
+    // retry: false,
     placeholderData: keepPreviousData,
   });
 
@@ -117,9 +137,23 @@ export default function Home() {
     setProductListData(data?.products);
   }, [data]);
 
-  const [productListData, setProductListData] = useState<Product[] | undefined>(
-    loadingState
-  );
+  useEffect(() => {
+    setProductListData(searchedData?.products);
+  }, [searchItem, searchedData]);
+
+  const handleSearch = (value: string) => {
+    setSearchItemValue(value);
+  };
+  const handleSubmit = async () => {
+    console.log(searchItemValue);
+    if (searchItemValue === "") {
+      setProductListData(data?.products);
+    } else {
+      await setSearchItem(searchItemValue);
+      searchedDataRefetch();
+      setProductListData(searchedData?.products);
+    }
+  };
 
   return (
     <Grid
@@ -132,140 +166,52 @@ export default function Home() {
       <HideOnScroll>
         <AppBar
           component={"nav"}
-          sx={{ backgroundColor: "inherit" }}
+          sx={{ backgroundColor: "#EAFAFF" }}
           position="fixed"
         >
-          <Grid>
-            <Typography
-              className={jura.className}
-              sx={{
-                color: "#2889A9",
-                fontSize: "40px",
-                fontStyle: "normal",
-                fontWeight: "700",
-                lineHeight: "normal",
-                mx: "7%",
-                my: 2,
-              }}
-            >
-              SaleComp
-            </Typography>
-          </Grid>
-
           <Grid
-            sx={{ backgroundColor: "rgba(0, 141, 187)" }}
-            maxHeight={50}
-            overflow={"visible"}
             container
-            direction="row"
-            justifyContent="space-evenly"
+            justifyContent={"space-between"}
+            alignContent={"center"}
+            direction={"row"}
+            sx={{ my: 2, px: "5%" }}
           >
-            <Grid sx={{ p: 1 }} item>
-              <Typography color={"inherit"} variant="h5">
-                محصولات
+            <Grid item display={"flex"}>
+              <Typography
+                className={jura.className}
+                sx={{
+                  color: "#2889A9",
+                  fontSize: "40px",
+                  fontStyle: "normal",
+                  fontWeight: "700",
+                  lineHeight: "normal",
+                }}
+              >
+                SaleComp
               </Typography>
+              <Grid sx={{ my: 1, mx: 2 }}>
+                <NavigationMenu setCategory={setCategory} />
+              </Grid>
             </Grid>
-            <Grid item>
-              <CustomButton
-                onClick={async () => {
-                  setCategory("");
-                }}
-                onBlur={(e) => {
-                  if (
-                    e.relatedTarget === null ||
-                    e.relatedTarget.id === "card"
-                  ) {
-                    e.target.focus();
-                  }
-                }}
+            <Grid item sx={{ my: 1 }}>
+              <TextField
+                sx={{ mx: 2 }}
+                value={searchItemValue}
+                label="search"
+                variant="outlined"
+                size="small"
+                type="text"
+                placeholder="iphone..."
+                onChange={(e) => handleSearch(e.target.value)}
+              />
+
+              <LoadingButton
+                variant="contained"
+                onClick={handleSubmit}
+                loading={isSearchingFetch || isSearchingLoad}
               >
-                همه ی محصولات
-              </CustomButton>
-            </Grid>
-            <Grid item>
-              <CustomButton
-                onClick={async () => {
-                  setCategory("/category/smartphones");
-                }}
-                onBlur={(e) => {
-                  if (
-                    e.relatedTarget === null ||
-                    e.relatedTarget.id === "card"
-                  ) {
-                    e.target.focus();
-                  }
-                }}
-              >
-                تلفن همراه
-              </CustomButton>
-            </Grid>
-            <Grid item>
-              <CustomButton
-                onClick={async () => {
-                  setCategory("/category/laptops");
-                }}
-                onBlur={(e) => {
-                  if (
-                    e.relatedTarget === null ||
-                    e.relatedTarget.id === "card"
-                  ) {
-                    e.target.focus();
-                  }
-                }}
-              >
-                لپتاپ
-              </CustomButton>
-            </Grid>
-            <Grid item>
-              <CustomButton
-                onClick={async () => {
-                  setCategory("/category/mens-watches");
-                }}
-                onBlur={(e) => {
-                  if (
-                    e.relatedTarget === null ||
-                    e.relatedTarget.id === "card"
-                  ) {
-                    e.target.focus();
-                  }
-                }}
-              >
-                ساعت مچی مردانه
-              </CustomButton>
-            </Grid>
-            <Grid item>
-              <CustomButton
-                onClick={async () => {
-                  setCategory("/category/sunglasses");
-                }}
-                onBlur={(e) => {
-                  if (
-                    e.relatedTarget === null ||
-                    e.relatedTarget.id === "card"
-                  ) {
-                    e.target.focus();
-                  }
-                }}
-              >
-                عینک آفتابی
-              </CustomButton>
-            </Grid>
-            <Grid item>
-              <CustomButton
-                onClick={async () => {
-                  setCategory("/category/womens-watches");
-                }}
-                onBlur={(e) => {
-                  if (
-                    e.relatedTarget === null ||
-                    e.relatedTarget.id === "card"
-                  ) {
-                    e.target.focus();
-                  }
-                }}
-              >
-                ساعت مچی زنانه
-              </CustomButton>
+                search
+              </LoadingButton>
             </Grid>
           </Grid>
         </AppBar>

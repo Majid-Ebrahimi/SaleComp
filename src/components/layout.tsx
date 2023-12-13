@@ -7,10 +7,10 @@ interface LayoutProps {
 
 const Layout: FC<LayoutProps> = ({ children }) => {
   return (
-    <>
-      <main dir="rtl">{children}</main>
+    <main>
+      <main>{children}</main>
       <Footer />
-    </>
+    </main>
   );
 };
 

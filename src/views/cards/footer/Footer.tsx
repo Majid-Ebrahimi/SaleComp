@@ -14,6 +14,11 @@ const Footer = () => {
       }}
     >
       <Grid container justifyContent={"space-between"}>
+        <Grid sx={{ mx: 1, p: 0.5 }}>
+          <Typography color={"#7A7D87"} variant="h6">
+            Contact Us
+          </Typography>
+        </Grid>
         <Grid display={"flex"}>
           <Grid sx={{ mx: 1, textAlign: "center" }}>
             <ButtonBase
@@ -61,11 +66,6 @@ const Footer = () => {
             </ButtonBase>
             <Typography variant="body2">telegram</Typography>
           </Grid>
-        </Grid>
-        <Grid sx={{ mx: 1, p: 0.5 }}>
-          <Typography color={"#7A7D87"} variant="h6">
-            راه های ارتباط با سلکامپ
-          </Typography>
         </Grid>
       </Grid>
     </Box>
