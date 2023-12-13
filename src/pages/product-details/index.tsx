@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import {
+  AppBar,
   Box,
   Button,
   Divider,
@@ -14,7 +15,12 @@ import Image from "next/image";
 import PriceTypography from "@/components/price-typography";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Jura } from "next/font/google";
 
+const jura = Jura({
+  subsets: ["latin"],
+  display: "swap",
+});
 interface CustomSubtitleProps {
   subjectText: string;
   contentText: string | number;
@@ -51,8 +57,54 @@ const ProductDetails = () => {
 
   return (
     <Grid container direction="row" justifyContent="center" alignItems="center">
+      <AppBar
+        component={"nav"}
+        sx={{ backgroundColor: "#EAFAFF" }}
+        position="fixed"
+      >
+        <Grid
+          container
+          justifyContent={"space-between"}
+          alignContent={"center"}
+          direction={"row"}
+          sx={{ my: 2, px: "5%" }}
+        >
+          <Grid item display={"flex"}>
+            <Typography
+              className={jura.className}
+              sx={{
+                color: "#2889A9",
+                fontSize: "40px",
+                fontStyle: "normal",
+                fontWeight: "700",
+                lineHeight: "normal",
+              }}
+            >
+              SaleComp
+            </Typography>
+          </Grid>
+          <Grid sx={{ my: 1 }} item>
+            <Button
+              onClick={() =>
+                router.push({
+                  pathname: "/",
+                })
+              }
+              variant="contained"
+            >
+              Home
+            </Button>
+          </Grid>
+        </Grid>
+      </AppBar>
       {data ? (
-        <>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          direction={"row"}
+          sx={{ mt: 14 }}
+        >
           <Grid item>
             <Box
               sx={{
@@ -206,7 +258,7 @@ const ProductDetails = () => {
               </Grid>
             </Grid>
           </Grid>
-        </>
+        </Grid>
       ) : (
         <div>somethings wrong!!!</div>
       )}

@@ -70,37 +70,36 @@ function HideOnScroll(props: HideOnScrollProps) {
   );
 }
 
+const loadingState: any[] = [
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+];
 export default function Home() {
   const [category, setCategory] = useState("");
   const [searchItem, setSearchItem] = useState("");
   const [searchItemValue, setSearchItemValue] = useState("");
+  const [productListData, setProductListData] = useState<Product[] | undefined>(
+    loadingState
+  );
 
-  const loadingState: any[] = [
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-  ];
-
-  /* const handleChangeCategory = (category: string) => {
-    setCategory(category);
-  }; */
   const router = useRouter();
 
   const getProductByCategory = async (category = "") => {
@@ -130,7 +129,7 @@ export default function Home() {
   const { isFetching, error, data, isLoading } = useQuery<ProductList>({
     queryFn: () => getProductByCategory(category),
     queryKey: ["products", category],
-    retry: false,
+    // retry: false,
     placeholderData: keepPreviousData,
   });
 
@@ -142,17 +141,12 @@ export default function Home() {
     setProductListData(searchedData?.products);
   }, [searchItem, searchedData]);
 
-  const [productListData, setProductListData] = useState<Product[] | undefined>(
-    loadingState
-  );
-
   const handleSearch = (value: string) => {
     setSearchItemValue(value);
   };
   const handleSubmit = async () => {
     console.log(searchItemValue);
     if (searchItemValue === "") {
-      // await setCategory("");
       setProductListData(data?.products);
     } else {
       await setSearchItem(searchItemValue);
@@ -195,13 +189,13 @@ export default function Home() {
               >
                 SaleComp
               </Typography>
-              <NavigationMenu
-                // categories={categoriesData}
-                setCategory={setCategory}
-              />
+              <Grid sx={{ my: 1, mx: 2 }}>
+                <NavigationMenu setCategory={setCategory} />
+              </Grid>
             </Grid>
-            <Grid item>
+            <Grid item sx={{ my: 1 }}>
               <TextField
+                sx={{ mx: 2 }}
                 value={searchItemValue}
                 label="search"
                 variant="outlined"
@@ -210,6 +204,7 @@ export default function Home() {
                 placeholder="iphone..."
                 onChange={(e) => handleSearch(e.target.value)}
               />
+
               <LoadingButton
                 variant="contained"
                 onClick={handleSubmit}
@@ -217,132 +212,8 @@ export default function Home() {
               >
                 search
               </LoadingButton>
-              {/* <form style={{ margin: "5px 0 0 5%" }}>
-                
-              </form> */}
             </Grid>
           </Grid>
-
-          {/* <Grid
-            sx={{ backgroundColor: "rgba(0, 141, 187)" }}
-            maxHeight={50}
-            overflow={"visible"}
-            container
-            direction="row"
-            justifyContent="space-evenly"
-          >
-            <NavigationMenu
-              categories={categoriesData}
-              setCategory={setCategory}
-            />
-            <Grid sx={{ p: 1 }} item>
-              <Typography color={"inherit"} variant="h5">
-                محصولات
-              </Typography>
-            </Grid>
-            <Grid item>
-              <CustomButton
-                onClick={async () => {
-                  setCategory("");
-                }}
-                onBlur={(e) => {
-                  if (
-                    e.relatedTarget === null ||
-                    e.relatedTarget.id === "card"
-                  ) {
-                    e.target.focus();
-                  }
-                }}
-              >
-                همه ی محصولات
-              </CustomButton>
-            </Grid>
-            <Grid item>
-              <CustomButton
-                onClick={async () => {
-                  setCategory("/category/smartphones");
-                }}
-                onBlur={(e) => {
-                  if (
-                    e.relatedTarget === null ||
-                    e.relatedTarget.id === "card"
-                  ) {
-                    e.target.focus();
-                  }
-                }}
-              >
-                تلفن همراه
-              </CustomButton>
-            </Grid>
-            <Grid item>
-              <CustomButton
-                onClick={async () => {
-                  setCategory("/category/laptops");
-                }}
-                onBlur={(e) => {
-                  if (
-                    e.relatedTarget === null ||
-                    e.relatedTarget.id === "card"
-                  ) {
-                    e.target.focus();
-                  }
-                }}
-              >
-                لپتاپ
-              </CustomButton>
-            </Grid>
-            <Grid item>
-              <CustomButton
-                onClick={async () => {
-                  setCategory("/category/mens-watches");
-                }}
-                onBlur={(e) => {
-                  if (
-                    e.relatedTarget === null ||
-                    e.relatedTarget.id === "card"
-                  ) {
-                    e.target.focus();
-                  }
-                }}
-              >
-                ساعت مچی مردانه
-              </CustomButton>
-            </Grid>
-            <Grid item>
-              <CustomButton
-                onClick={async () => {
-                  setCategory("/category/sunglasses");
-                }}
-                onBlur={(e) => {
-                  if (
-                    e.relatedTarget === null ||
-                    e.relatedTarget.id === "card"
-                  ) {
-                    e.target.focus();
-                  }
-                }}
-              >
-                عینک آفتابی
-              </CustomButton>
-            </Grid>
-            <Grid item>
-              <CustomButton
-                onClick={async () => {
-                  setCategory("/category/womens-watches");
-                }}
-                onBlur={(e) => {
-                  if (
-                    e.relatedTarget === null ||
-                    e.relatedTarget.id === "card"
-                  ) {
-                    e.target.focus();
-                  }
-                }}
-              >
-                ساعت مچی زنانه
-              </CustomButton>
-            </Grid>
-          </Grid> */}
         </AppBar>
       </HideOnScroll>
       <List sx={{ flexWrap: "wrap", mt: 17 }}>
