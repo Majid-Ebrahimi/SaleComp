@@ -8,6 +8,7 @@ import {
   Button,
   Divider,
   Grid,
+  IconButton,
   Skeleton,
   Typography,
 } from "@mui/material";
@@ -84,16 +85,19 @@ const ProductDetails = () => {
             </Typography>
           </Grid>
           <Grid sx={{ my: 1 }} item>
-            <Button
-              onClick={() =>
-                router.push({
-                  pathname: "/",
-                })
-              }
-              variant="contained"
-            >
-              Home
-            </Button>
+            <IconButton>
+            <Image
+                onClick={() =>
+                  router.push({
+                    pathname: "/",
+                  })
+                }
+                width={24}
+                height={24}
+                alt="star"
+                src={`images/home.svg`}
+              ></Image>
+            </IconButton>
           </Grid>
         </Grid>
       </AppBar>
