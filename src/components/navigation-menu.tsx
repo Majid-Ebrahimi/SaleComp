@@ -1,4 +1,4 @@
-import { Product } from "@/models";
+import { Category, Product } from "@/models";
 import { LoadingButton } from "@mui/lab";
 import { Button, Menu, MenuItem, Tab, styled } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
@@ -47,7 +47,7 @@ const NavigationMenu = (props: Props) => {
     error: categoriesError,
     data: categoriesData,
     isLoading: categoriesIsLoading,
-  } = useQuery<Product["category"][] | undefined[]>({
+  } = useQuery<Category[]>({
     queryFn: async () =>
       (await axios.get(`https://dummyjson.com/products/categories`)).data,
     queryKey: ["categories"],
@@ -81,7 +81,7 @@ const NavigationMenu = (props: Props) => {
         loading={categoriesIsFetching || categoriesIsLoading}
       >
         {categoriesData?.[selectedIndex]
-          ? categoriesData?.[selectedIndex]
+          ? categoriesData?.[selectedIndex].name
           : "All Categories"}
       </LoadingButton>
       <Menu
@@ -111,11 +111,11 @@ const NavigationMenu = (props: Props) => {
         </MenuItem>
         {categoriesData?.map((item, index) => (
           <MenuItem
-            key={item}
+            key={item.slug}
             selected={index === selectedIndex}
             onClick={(event) => handleMenuItemClick(event, index)}
           >
-            {item}
+            {item.name}
           </MenuItem>
         ))}
       </Menu>
