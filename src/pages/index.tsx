@@ -26,7 +26,7 @@ const jura = Jura({
   display: "swap",
 });
 
-const CustomButton = styled(Button)({
+/* const CustomButton = styled(Button)({
   boxShadow: "none",
   color: "inherit",
   marginBottom: "7px",
@@ -47,12 +47,8 @@ const CustomButton = styled(Button)({
     boxShadow: "0px 0px 8px 0px rgba(0, 0, 0, 0.50)",
   },
 });
-
+ */
 interface HideOnScrollProps {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window?: () => Window;
   children: React.ReactElement;
 }
@@ -126,12 +122,12 @@ export default function Home() {
     placeholderData: keepPreviousData,
   });
 
-  const { isFetching, error, data, isLoading } = useQuery<ProductList>({
-    queryFn: () => getProductByCategory(category),
-    queryKey: ["products", category],
-    // retry: false,
-    placeholderData: keepPreviousData,
-  });
+  const { isFetching, error, data, isLoading, refetch } = useQuery<ProductList>(
+    {
+      queryFn: () => getProductByCategory(category),
+      queryKey: ["products", category],
+    }
+  );
 
   useEffect(() => {
     setProductListData(data?.products);
@@ -145,7 +141,6 @@ export default function Home() {
     setSearchItemValue(value);
   };
   const handleSubmit = async () => {
-    console.log(searchItemValue);
     if (searchItemValue === "") {
       setProductListData(data?.products);
     } else {
@@ -221,9 +216,8 @@ export default function Home() {
           {error ? (
             <div>Error</div>
           ) : isFetching || isLoading ? (
-            loadingState.map(() => {
-              // eslint-disable-next-line react/jsx-key
-              return <ProductCard isLoading />;
+            loadingState.map((item, index) => {
+              return <ProductCard key={index} isLoading />;
             })
           ) : (
             productListData?.map((item) => {

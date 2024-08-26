@@ -1,7 +1,7 @@
 import { Product } from "@/models";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   AppBar,
   Box,
@@ -46,6 +46,8 @@ const CustomSubtitle = (props: CustomSubtitleProps) => {
 };
 
 const ProductDetails = () => {
+  const queryClient = useQueryClient();
+
   const router = useRouter();
 
   const { isFetching, error, data, isLoading } = useQuery<Product>({
@@ -86,17 +88,26 @@ const ProductDetails = () => {
           </Grid>
           <Grid sx={{ my: 1 }} item>
             <IconButton>
-            <Image
-                onClick={() =>
-                  router.push({
-                    pathname: "/",
-                  })
-                }
+              <Image
+                onClick={async () => {
+                  queryClient.removeQueries();
+                  router.back();
+                  await queryClient.refetchQueries({
+                    queryKey: ["products", 1],
+                    type: "active",
+                    exact: true,
+                  });
+                  await queryClient.refetchQueries({
+                    queryKey: ["searchedProducts", 1],
+                    type: "active",
+                    exact: true,
+                  });
+                }}
                 width={24}
                 height={24}
                 alt="star"
                 src={`images/home.svg`}
-              ></Image>
+              />
             </IconButton>
           </Grid>
         </Grid>
